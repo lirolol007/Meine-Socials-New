@@ -51,6 +51,7 @@
         ${D.site.tagline ? `<p class="tagline">${esc(D.site.tagline)}</p>` : ''}
       </section>
       ${h.text ? `<div class="intro prose">${md(h.text)}</div>` : ''}
+      ${h.image ? `<img class="home-image" src="${esc(resolveImg(h.image))}" alt="">` : ''}
       <section class="links" aria-label="Meine Links">
         ${D.links.length ? D.links.map(l => linkBtn(l)).join('') : '<p class="empty">Noch keine Links.</p>'}
       </section>`;
