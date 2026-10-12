@@ -1,0 +1,49 @@
+{
+  "site": {
+    "title": "Dein Name",
+    "tagline": "Gamer, Creator, Kaffeejunkie",
+    "avatar": "",
+    "accent": "#d0d0d6"
+  },
+  "nav": {
+    "home": "Home",
+    "blog": "Blog",
+    "friends": "Freunde",
+    "impressum": "Impressum"
+  },
+  "home": {
+    "headline": "Hey, schön dass du da bist.",
+    "text": "Hier findest du alle meine Kanäle an einem Ort. Schau dich um und folge mir, wo es dir am besten gefällt."
+  },
+  "links": [
+    { "label": "Instagram", "url": "https://instagram.com/deinname", "icon": "" },
+    { "label": "TikTok", "url": "https://tiktok.com/@deinname", "icon": "" },
+    { "label": "YouTube", "url": "https://youtube.com/@deinname", "icon": "" },
+    { "label": "Discord", "url": "https://discord.gg/deinserver", "icon": "" }
+  ],
+  "posts": [
+    {
+      "id": "willkommen-1",
+      "title": "Willkommen auf meiner neuen Seite",
+      "date": "2026-10-12",
+      "cover": "",
+      "preview": "Das hier ist mein erster Beitrag. Bald gibt es hier Bilder, Geschichten und Neuigkeiten.",
+      "content": "Das hier ist mein erster Beitrag.\n\nIm Admin-Bereich kannst du Beiträge schreiben, Bilder einfügen und alles so anpassen, wie du es willst."
+    }
+  ],
+  "friends": [
+    {
+      "name": "Beispiel-Freund",
+      "avatar": "",
+      "bio": "Kurzer Text über die Person.",
+      "links": [
+        { "label": "Instagram", "url": "https://instagram.com/beispiel", "icon": "" },
+        { "label": "Twitch", "url": "https://twitch.tv/beispiel", "icon": "" }
+      ]
+    }
+  ],
+  "impressum": {
+    "title": "Impressum",
+    "text": "Angaben gemäß § 5 DDG\n\nMax Mustermann\nMusterstraße 1\n12345 Musterstadt\n\nKontakt\nE-Mail: kontakt@example.com"
+  }
+}
