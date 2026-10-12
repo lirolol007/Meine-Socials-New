@@ -65,15 +65,27 @@
 
   /* ---------- GitHub-API ---------- */
   async function gh(path, opts = {}) {
-    const res = await fetch(`https://api.github.com/repos/${cfg.repo}/${path}`, {
-      ...opts,
-      headers: {
-        'Authorization': `Bearer ${cfg.token}`,
-        'Accept': 'application/vnd.github+json',
-        ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
-        ...(opts.headers || {})
-      }
-    });
+    let res;
+    try {
+      res = await fetch(`https://api.github.com/repos/${cfg.repo}/${path}`, {
+        ...opts,
+        headers: {
+          'Authorization': `Bearer ${cfg.token}`,
+          'Accept': 'application/vnd.github+json',
+          ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
+          ...(opts.headers || {})
+        }
+      });
+    } catch (netErr) {
+      // Diagnose: Ist GitHub überhaupt erreichbar (ohne Token)?
+      let reachable = false;
+      try { const z = await fetch('https://api.github.com/zen'); reachable = z.status < 500; } catch (e2) { /* nicht erreichbar */ }
+      const err = new Error(reachable
+        ? 'GitHub ist erreichbar, aber die Anfrage mit deinem Token wurde vom Browser abgebrochen. Der Token ist vermutlich unvollständig oder mit Sonderzeichen eingefügt. Kopiere ihn neu (nur Buchstaben, Zahlen und _).'
+        : 'Dein Browser erreicht api.github.com nicht. Meist blockiert ein Werbeblocker, Brave Shields, ein VPN oder ein Netzwerkfilter (Schule/Arbeit) die Adresse. Schalte den Blocker für diese Seite aus, trenne das VPN oder probiere ein anderes Netz (z. B. mobile Daten) oder einen anderen Browser.');
+      err.status = 0;
+      throw err;
+    }
     let json = null;
     try { json = await res.json(); } catch (e) { /* leere Antwort */ }
     if (!res.ok) {
@@ -630,10 +642,11 @@
   async function doLogin() {
     const repo = $('#lRepo').value.trim().replace(/^https?:\/\/github\.com\//, '').replace(/\/$/, '');
     const branch = $('#lBranch').value.trim() || 'main';
-    const token = $('#lToken').value.trim();
+    const token = $('#lToken').value.replace(/[\s"'“”‘’]/g, '');
     const err = $('#lErr'), btn = $('#lGo');
     if (!/^[\w.-]+\/[\w.-]+$/.test(repo)) { err.textContent = 'Bitte das Repository so eintragen: benutzername/repo'; return; }
     if (!token) { err.textContent = 'Bitte den Token einfügen.'; return; }
+    if (/[^\x21-\x7E]/.test(token)) { err.textContent = 'Der Token enthält ungültige Zeichen. Kopiere ihn bitte neu aus GitHub.'; return; }
     btn.disabled = true; btn.textContent = 'Verbinde …'; err.textContent = '';
     try { await connect({ token, repo, branch }); }
     catch (e) { cfg = null; showLogin(niceError(e), { repo, branch, token }, 'token'); }
