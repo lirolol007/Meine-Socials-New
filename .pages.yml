@@ -61,6 +61,9 @@ content:
           - name: text
             label: Begrüßungstext
             type: text
+          - name: image
+            label: Eigenes Bild / Logo auf der Startseite (optional)
+            type: image
 
       - name: links
         label: Meine Links (Startseite)
@@ -79,6 +82,9 @@ content:
           - name: icon
             label: Icon (optional, Emoji. Leer = automatisch)
             type: string
+          - name: logo
+            label: Eigenes Logo / Bild (ersetzt das Icon, optional)
+            type: image
 
       - name: posts
         label: Blog-Beiträge
@@ -134,6 +140,12 @@ content:
               - name: url
                 label: Adresse (https://…)
                 type: string
+              - name: icon
+                label: Icon (optional, Emoji. Leer = automatisch)
+                type: string
+              - name: logo
+                label: Eigenes Logo / Bild (ersetzt das Icon, optional)
+                type: image
 
       - name: impressum
         label: Impressum
