@@ -1,0 +1,147 @@
+# Einstellungen für Pages CMS (app.pagescms.org)
+# Diese Datei muss im Repository als ".pages.yml" gespeichert werden (mit Punkt am Anfang).
+
+media:
+  input: images
+  output: /images
+  rename: safe
+  extensions: [png, jpg, jpeg, gif, webp, svg]
+
+content:
+  - name: seite
+    label: Meine Seite
+    type: file
+    path: data.json
+    format: json
+    fields:
+      - name: site
+        label: Allgemein
+        type: object
+        fields:
+          - name: title
+            label: Dein Name / Seitenname
+            type: string
+          - name: tagline
+            label: Untertitel unter dem Namen
+            type: string
+          - name: avatar
+            label: Profilbild
+            type: image
+          - name: accent
+            label: Akzentfarbe (Hex-Code, z. B. #d0d0d6)
+            type: string
+            pattern:
+              regex: "^#[0-9a-fA-F]{6}$"
+              message: "Bitte einen Hex-Code wie #d0d0d6 eintragen"
+
+      - name: nav
+        label: Menü-Buttons (Beschriftung)
+        type: object
+        fields:
+          - name: home
+            label: Button 1 (Startseite)
+            type: string
+          - name: blog
+            label: Button 2 (Blog)
+            type: string
+          - name: friends
+            label: Button 3 (Freunde)
+            type: string
+          - name: impressum
+            label: Button 4 (Impressum)
+            type: string
+
+      - name: home
+        label: Startseite
+        type: object
+        fields:
+          - name: headline
+            label: Überschrift
+            type: string
+          - name: text
+            label: Begrüßungstext
+            type: text
+
+      - name: links
+        label: Meine Links (Startseite)
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{label}"
+        fields:
+          - name: label
+            label: Name (z. B. Instagram)
+            type: string
+          - name: url
+            label: Adresse (https://…)
+            type: string
+          - name: icon
+            label: Icon (optional, Emoji. Leer = automatisch)
+            type: string
+
+      - name: posts
+        label: Blog-Beiträge
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{title}"
+        fields:
+          - name: title
+            label: Titel
+            type: string
+          - name: date
+            label: Datum
+            type: date
+            options:
+              format: yyyy-MM-dd
+          - name: cover
+            label: Titelbild
+            type: image
+          - name: preview
+            label: Vorschau-Text (kurz, erscheint auf der Karte)
+            type: text
+          - name: content
+            label: Beitragstext (Leerzeile = neuer Absatz, **fett**, [Text](https://link), ![](images/bild.jpg))
+            type: text
+
+      - name: friends
+        label: Freunde
+        type: object
+        list:
+          collapsible:
+            collapsed: true
+            summary: "{name}"
+        fields:
+          - name: name
+            label: Name
+            type: string
+          - name: avatar
+            label: Profilbild
+            type: image
+          - name: bio
+            label: Kurztext (optional)
+            type: text
+          - name: links
+            label: Social-Media-Links
+            type: object
+            list: true
+            fields:
+              - name: label
+                label: Name (z. B. Instagram)
+                type: string
+              - name: url
+                label: Adresse (https://…)
+                type: string
+
+      - name: impressum
+        label: Impressum
+        type: object
+        fields:
+          - name: title
+            label: Überschrift
+            type: string
+          - name: text
+            label: Text (Leerzeile = neuer Absatz)
+            type: text

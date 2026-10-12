@@ -20,6 +20,17 @@
   D.links = D.links || []; D.posts = D.posts || []; D.friends = D.friends || [];
   D.impressum = D.impressum || {};
 
+  // Beiträge brauchen eine ID für ihre Adresse. Fehlt sie, wird sie aus Titel und Datum gebildet.
+  const slugify = s => String(s || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '').slice(0, 40);
+  const usedIds = new Set();
+  D.posts.forEach((p, i) => {
+    let id = p.id || [slugify(p.title) || 'beitrag', p.date || ''].filter(Boolean).join('-');
+    while (usedIds.has(id)) id += '-' + (i + 1);
+    p.id = id; usedIds.add(id);
+  });
+  D.friends.forEach(f => { f.links = f.links || []; });
+
   applyTheme(D.site);
 
   const label = p => D.nav[p] || { home: 'Home', blog: 'Blog', friends: 'Freunde', impressum: 'Impressum' }[p];
