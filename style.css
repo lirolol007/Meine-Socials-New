@@ -8,6 +8,7 @@
   --muted: #9a9aa2;
   --accent: #d0d0d6;      /* wird im Admin einstellbar */
   --on-accent: #0c0c0e;
+  --accent-rgb: 208, 208, 214;
   --radius: 16px;
   --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
@@ -107,10 +108,11 @@ h1, h2, h3 { line-height: 1.2; letter-spacing: -0.02em; margin: 0; }
   width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 auto;
   background: var(--raised); border-radius: 10px; font-size: 20px; overflow: hidden;
 }
-.link-btn .ic img { width: 100%; height: 100%; object-fit: cover; }
+.link-btn .ic > * { grid-area: 1 / 1; }
+.link-btn .ic img { width: 100%; height: 100%; object-fit: cover; background: var(--raised); }
 .link-btn .lbl { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .link-btn .go { color: var(--muted); transition: color .15s, transform .15s; }
-.link-btn:hover { transform: translateY(-2px); border-color: var(--accent); background: #1a1a1d; }
+.link-btn:hover { border-color: var(--accent); background: #1a1a1d; animation: hop .5s ease-out 1; }
 .link-btn:hover .go { color: var(--accent); transform: translate(2px, -2px); }
 
 /* ---------- Karten (Blog & Freunde) ---------- */
@@ -143,7 +145,11 @@ a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
   background: var(--raised); border: 1px solid var(--line); text-decoration: none;
   transition: border-color .15s;
 }
-.chip:hover { border-color: var(--accent); }
+.chip { --hop: -5px; }
+.chip:hover { border-color: var(--accent); animation: hop .5s ease-out 1; }
+.chip > span { display: inline-grid; place-items: center; }
+.chip > span > * { grid-area: 1 / 1; }
+.chip > span img { width: 18px; height: 18px; border-radius: 5px; object-fit: cover; background: var(--raised); }
 
 /* ---------- Artikel & Impressum ---------- */
 .article { max-width: 680px; margin: 0 auto; }
@@ -175,6 +181,34 @@ a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
   .grid { grid-template-columns: 1fr; }
 }
 
+/* ---------- Eigenes Bild / Logo auf der Startseite ---------- */
+.home-image {
+  display: block; margin: 26px auto 0;
+  max-width: min(100%, 420px); max-height: 240px; object-fit: contain;
+  border-radius: 14px; border: 1px solid var(--line);
+}
+
+/* ---------- Hüpf-Effekt beim Drüberfahren (einmal) ---------- */
+@keyframes hop {
+  0%   { transform: translateY(0); }
+  30%  { transform: translateY(var(--hop, -9px)); }
+  55%  { transform: translateY(0); }
+  72%  { transform: translateY(calc(var(--hop, -9px) / 3)); }
+  100% { transform: translateY(0); }
+}
+
+/* ---------- Hintergrund-Effekte (siehe effects.js) ---------- */
+#fx-canvas { position: fixed; inset: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+.wrap, .foot { position: relative; z-index: 1; }
+#fx-glow {
+  position: fixed; left: 0; top: 0; width: 460px; height: 460px; margin: -230px 0 0 -230px;
+  border-radius: 50%; pointer-events: none; z-index: 30; opacity: 0;
+  background: radial-gradient(circle, rgba(var(--accent-rgb), .15) 0%, rgba(var(--accent-rgb), .055) 38%, transparent 70%);
+  mix-blend-mode: screen; will-change: transform; transition: opacity .35s;
+}
+#fx-glow.on { opacity: 1; }
+
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
+  .link-btn:hover, .chip:hover { animation: none; }
 }
