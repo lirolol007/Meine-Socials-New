@@ -65,24 +65,31 @@
 
   /* ---------- GitHub-API ---------- */
   async function gh(path, opts = {}) {
+    // Kein "/" am Ende, wenn kein Unterpfad: GitHub leitet sonst um und der Browser bricht ab.
+    const url = path ? `https://api.github.com/repos/${cfg.repo}/${path}` : `https://api.github.com/repos/${cfg.repo}`;
     let res;
     try {
-      res = await fetch(`https://api.github.com/repos/${cfg.repo}/${path}`, {
+      res = await fetch(url, {
         ...opts,
         headers: {
           'Authorization': `Bearer ${cfg.token}`,
-          'Accept': 'application/vnd.github+json',
           ...(opts.body ? { 'Content-Type': 'application/json' } : {}),
           ...(opts.headers || {})
         }
       });
     } catch (netErr) {
-      // Diagnose: Ist GitHub überhaupt erreichbar (ohne Token)?
-      let reachable = false;
+      // Diagnose in zwei Schritten: 1) GitHub ohne Token, 2) GitHub mit Token (ohne Repository)
+      let reachable = false, authOk = false;
       try { const z = await fetch('https://api.github.com/zen'); reachable = z.status < 500; } catch (e2) { /* nicht erreichbar */ }
-      const err = new Error(reachable
-        ? 'GitHub ist erreichbar, aber die Anfrage mit deinem Token wurde vom Browser abgebrochen. Der Token ist vermutlich unvollständig oder mit Sonderzeichen eingefügt. Kopiere ihn neu (nur Buchstaben, Zahlen und _).'
-        : 'Dein Browser erreicht api.github.com nicht. Meist blockiert ein Werbeblocker, Brave Shields, ein VPN oder ein Netzwerkfilter (Schule/Arbeit) die Adresse. Schalte den Blocker für diese Seite aus, trenne das VPN oder probiere ein anderes Netz (z. B. mobile Daten) oder einen anderen Browser.');
+      if (reachable) {
+        try { await fetch('https://api.github.com/user', { headers: { 'Authorization': `Bearer ${cfg.token}` } }); authOk = true; } catch (e3) { /* Token-Anfrage scheitert */ }
+      }
+      const tech = ` (Technisch: ${netErr && netErr.message})`;
+      const err = new Error(!reachable
+        ? 'Dein Browser erreicht api.github.com nicht. Meist blockiert ein Werbeblocker, Brave Shields, ein VPN oder ein Netzwerkfilter die Adresse. Schalte den Blocker für diese Seite aus, trenne das VPN oder probiere mobile Daten oder einen anderen Browser.' + tech
+        : authOk
+          ? 'GitHub und dein Token funktionieren, aber die Adresse des Repositorys „' + cfg.repo + '“ wird von GitHub umgeleitet. Das passiert meist, wenn das Repository umbenannt wurde. Trage den Namen exakt so ein, wie er oben auf der GitHub-Seite deines Repositorys steht (benutzername/repo).' + tech
+          : 'GitHub ist erreichbar, aber Anfragen mit Token werden in deinem Browser abgebrochen. Meist ist eine Erweiterung (Werbeblocker, Datenschutz-Add-on) der Grund. Probiere ein privates Fenster ohne Erweiterungen oder einen anderen Browser.' + tech);
       err.status = 0;
       throw err;
     }
