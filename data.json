@@ -41,6 +41,11 @@
       "label": "Instagram",
       "url": "https://instagram.com/lirooo0",
       "logo": "/images/insta.webp"
+    },
+    {
+      "label": "Supporte Mich :3",
+      "url": "https://ko-fi.com/lirostarcat",
+      "logo": "/images/kofisymbol.svg"
     }
   ],
   "friends": [
