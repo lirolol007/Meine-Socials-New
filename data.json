@@ -17,10 +17,6 @@
   },
   "links": [
     {
-      "label": "Instagram",
-      "url": "https://instagram.com/lirooo0"
-    },
-    {
       "label": "TikTok",
       "url": "https://tiktok.com/@liro0160"
     },
@@ -29,12 +25,16 @@
       "url": "https://youtube.com/@liro_lol"
     },
     {
+      "label": "Twitch",
+      "url": "https://www.twitch.tv/lirooo0"
+    },
+    {
       "label": "Discord",
       "url": "https://discord.gg/x8W23Xwmph"
     },
     {
-      "label": "Twitch",
-      "url": "https://www.twitch.tv/lirooo0"
+      "label": "Instagram",
+      "url": "https://instagram.com/lirooo0"
     }
   ],
   "friends": [
