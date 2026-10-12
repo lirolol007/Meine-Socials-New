@@ -18,23 +18,28 @@
   "links": [
     {
       "label": "TikTok",
-      "url": "https://tiktok.com/@liro0160"
+      "url": "https://tiktok.com/@liro0160",
+      "logo": "/images/tiktok.webp"
     },
     {
       "label": "YouTube",
-      "url": "https://youtube.com/@liro_lol"
+      "url": "https://youtube.com/@liro_lol",
+      "logo": "/images/youtube.webp"
     },
     {
       "label": "Twitch",
-      "url": "https://www.twitch.tv/lirooo0"
+      "url": "https://www.twitch.tv/lirooo0",
+      "logo": "/images/twitch.webp"
     },
     {
       "label": "Discord",
-      "url": "https://discord.gg/x8W23Xwmph"
+      "url": "https://discord.gg/x8W23Xwmph",
+      "logo": "/images/discord.webp"
     },
     {
       "label": "Instagram",
-      "url": "https://instagram.com/lirooo0"
+      "url": "https://instagram.com/lirooo0",
+      "logo": "/images/insta.webp"
     }
   ],
   "friends": [
