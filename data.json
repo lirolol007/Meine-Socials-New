@@ -48,6 +48,15 @@
       "logo": "/images/kofisymbol.svg"
     }
   ],
+  "posts": [
+    {
+      "title": "NEUES VIDEO AUF YOUTUBE!!!!",
+      "date": "2026-10-13",
+      "cover": "/images/casualties-unknown-thumbnail-2.png",
+      "preview": "EIN NEUES VIDEO AUF MEINEM YOUTUBE KANAL!!!!",
+      "content": "In Casualties Unknown geht es darum, verschiedene Ebenen (Layers) zu erkunden und am Leben zu bleiben. Wir müssen die Umgebung genau durchsuchen, Ausrüstung sammeln und Feinden oder Hindernissen ausweichen, während wir immer tiefer nach unten vordringen.\n\nÜberleben wir den ersten Layer?"
+    }
+  ],
   "friends": [
     {
       "name": "Ryio",
