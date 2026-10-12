@@ -50,10 +50,9 @@ const ICONS = {
   'paypal.me': '💸', 'paypal.com': '💸', 'pinterest.com': '📌', 'threads.net': '🧵'
 };
 
-function iconHtml(l) {
+function emojiFor(l) {
   const ic = String(l.icon || '').trim();
-  if (/\.(png|jpe?g|gif|webp|svg|avif)$/i.test(ic)) return `<img src="${esc(resolveImg(ic))}" alt="">`;
-  if (ic) return esc(ic);
+  if (ic && !/\.(png|jpe?g|gif|webp|svg|avif)$/i.test(ic)) return esc(ic);
   const url = String(l.url || '').trim();
   if (/^mailto:/i.test(url)) return '✉️';
   try {
@@ -61,6 +60,15 @@ function iconHtml(l) {
     for (const k in ICONS) if (host === k || host.endsWith('.' + k)) return ICONS[k];
   } catch (e) { /* ignorieren */ }
   return '🔗';
+}
+
+/* Eigenes Logo/Bild (Feld "logo") ersetzt das Emoji. Lädt das Bild nicht, bleibt das Emoji sichtbar. */
+function iconHtml(l) {
+  const logo = String(l.logo || '').trim();
+  const ic = String(l.icon || '').trim();
+  const img = logo || (/\.(png|jpe?g|gif|webp|svg|avif)$/i.test(ic) ? ic : '');
+  if (img) return `<span class="fb">${emojiFor(l)}</span><img src="${esc(resolveImg(img))}" alt="">`;
+  return emojiFor(l);
 }
 
 function avatarHtml(src, name, size) {
@@ -117,6 +125,7 @@ function applyTheme(site) {
   const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   const root = document.documentElement.style;
   root.setProperty('--accent', a);
+  root.setProperty('--accent-rgb', `${r}, ${g}, ${b}`);
   root.setProperty('--on-accent', lum > 0.55 ? '#0c0c0e' : '#ffffff');
 }
 
