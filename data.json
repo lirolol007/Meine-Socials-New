@@ -12,8 +12,8 @@
     "impressum": "Impressum"
   },
   "home": {
-    "headline": "Hey, schön dass du da bist.",
-    "text": "Hier findest du alle meine Kanäle an einem Ort. Schau dich um und folge mir, wo es dir am besten gefällt."
+    "headline": "WILKOMMEN!!!!",
+    "text": "Hier gehts zu meinen Kanälen :3"
   },
   "links": [
     {
@@ -31,28 +31,20 @@
     {
       "label": "Discord",
       "url": "https://discord.gg/x8W23Xwmph"
-    }
-  ],
-  "posts": [
+    },
     {
-      "title": "Willkommen auf meiner neuen Seite",
-      "date": "2026-10-12",
-      "preview": "Das hier ist mein erster Beitrag. Bald gibt es hier Bilder, Geschichten und Neuigkeiten.",
-      "content": "Das hier ist mein erster Beitrag.\n\nIm Admin-Bereich kannst du Beiträge schreiben, Bilder einfügen und alles so anpassen, wie du es willst."
+      "label": "Twitch",
+      "url": "https://www.twitch.tv/lirooo0"
     }
   ],
   "friends": [
     {
-      "name": "Beispiel-Freund",
-      "bio": "Kurzer Text über die Person.",
+      "name": "Ryio",
+      "bio": "Einfach nen Kleiner Nova mit ner Hohen Stimme XD",
       "links": [
         {
-          "label": "Instagram",
-          "url": "https://instagram.com/beispiel"
-        },
-        {
-          "label": "Twitch",
-          "url": "https://twitch.tv/beispiel"
+          "label": "Tiktok",
+          "url": "https://www.tiktok.com/@fluffy_ryio"
         }
       ]
     }
