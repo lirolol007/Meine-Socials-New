@@ -161,6 +161,22 @@ function applyFonts(font) {
   root.setProperty('--font-head', head);
 }
 
+/* Glow: eigene Farbe (sonst Akzentfarbe) und optionaler Schein hinter den Buttons */
+function applyGlow(g) {
+  g = g || {};
+  const html = document.documentElement;
+  const c = String(g.color || '').trim();
+  if (/^#[0-9a-f]{6}$/i.test(c)) {
+    html.style.setProperty('--glow-rgb',
+      `${parseInt(c.slice(1, 3), 16)}, ${parseInt(c.slice(3, 5), 16)}, ${parseInt(c.slice(5, 7), 16)}`);
+  } else {
+    html.style.removeProperty('--glow-rgb');
+  }
+  html.classList.remove('glow-hover', 'glow-always');
+  if (g.buttons === 'hover') html.classList.add('glow-hover');
+  else if (g.buttons === 'always') html.classList.add('glow-always');
+}
+
 /* Logo im Browser-Tab */
 function setFavicon(path) {
   const href = resolveImg(path);
