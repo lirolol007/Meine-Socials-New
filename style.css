@@ -9,6 +9,7 @@
   --accent: #d0d0d6;      /* wird im Admin einstellbar */
   --on-accent: #0c0c0e;
   --accent-rgb: 208, 208, 214;
+  --glow: var(--glow-rgb, var(--accent-rgb));   /* Glow-Farbe, sonst Akzentfarbe */
   --radius: 16px;
   --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
   --font-head: var(--font);
@@ -103,7 +104,7 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; letter-spacing: -0
   border-radius: 14px;
   text-decoration: none;
   font-weight: 600;
-  transition: transform .15s, border-color .15s, background .15s;
+  transition: transform .15s, border-color .15s, background .15s, box-shadow .25s;
 }
 .link-btn .ic {
   width: 44px; height: 44px; display: grid; place-items: center; flex: 0 0 auto;
@@ -144,7 +145,7 @@ a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
   display: inline-flex; align-items: center; gap: 6px;
   padding: 6px 12px; border-radius: 999px; font-size: .88rem; font-weight: 600;
   background: var(--raised); border: 1px solid var(--line); text-decoration: none;
-  transition: border-color .15s;
+  transition: border-color .15s, box-shadow .25s;
 }
 .chip { --hop: -5px; }
 .chip:hover { border-color: var(--accent); animation: hop .5s ease-out 1; }
@@ -204,10 +205,25 @@ a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
 #fx-glow {
   position: fixed; left: 0; top: 0; width: 460px; height: 460px; margin: -230px 0 0 -230px;
   border-radius: 50%; pointer-events: none; z-index: 30; opacity: 0;
-  background: radial-gradient(circle, rgba(var(--accent-rgb), .15) 0%, rgba(var(--accent-rgb), .055) 38%, transparent 70%);
+  background: radial-gradient(circle, rgba(var(--glow), .15) 0%, rgba(var(--glow), .055) 38%, transparent 70%);
   mix-blend-mode: screen; will-change: transform; transition: opacity .35s;
 }
 #fx-glow.on { opacity: 1; }
+
+/* Hintergrundbild pro Seite (siehe app.js) */
+#bg-img {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none;
+  background-size: cover; background-position: center; background-repeat: no-repeat;
+  opacity: 0; transition: opacity .5s ease;
+}
+#bg-img.on { opacity: 1; }
+
+/* Optionaler Schein hinter den Buttons (im CMS: "Glow hinter den Buttons") */
+.glow-always .link-btn, .glow-always .chip { box-shadow: 0 0 18px rgba(var(--glow), .2); }
+.glow-hover .link-btn:hover, .glow-always .link-btn:hover,
+.glow-hover .chip:hover, .glow-always .chip:hover {
+  box-shadow: 0 0 28px rgba(var(--glow), .45), 0 0 6px rgba(var(--glow), .3);
+}
 
 @media (prefers-reduced-motion: reduce) {
   * { transition: none !important; }
