@@ -117,6 +117,62 @@ function friendCard(f) {
   </article>`;
 }
 
+/* ---------- Schriftarten ---------- */
+const FONT_PRESETS = {
+  standard: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
+  rund: '"Nunito", "Varela Round", ui-rounded, "SF Pro Rounded", "Trebuchet MS", system-ui, sans-serif',
+  comic: '"Comic Neue", "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Marker Felt", cursive',
+  handschrift: '"Segoe Print", "Bradley Hand", "Chalkboard SE", "Comic Sans MS", cursive',
+  serif: 'Georgia, "Times New Roman", Times, serif',
+  mono: 'ui-monospace, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace'
+};
+
+function fontFormat(path) {
+  const ext = String(path).split('?')[0].split('.').pop().toLowerCase();
+  return { woff2: 'woff2', woff: 'woff', ttf: 'truetype', otf: 'opentype' }[ext] || '';
+}
+
+/* font = { preset, file, headingPreset, headingFile }.
+   Eine hochgeladene Datei hat Vorrang vor der Vorlage. Die Vorlage dient als Ersatz, falls die Datei nicht lädt. */
+function applyFonts(font) {
+  const f = font || {};
+  let css = '';
+  const stack = (preset, file, family) => {
+    const base = FONT_PRESETS[preset] || FONT_PRESETS.standard;
+    file = String(file || '').trim();
+    if (!file) return base;
+    const url = resolveImg(file).replace(/["'\\\n\r()]/g, '');
+    const fmt = fontFormat(file);
+    css += `@font-face{font-family:"${family}";src:url("${url}")${fmt ? ` format("${fmt}")` : ''};font-display:swap}`;
+    return `"${family}", ${base}`;
+  };
+  const body = stack(f.preset, f.file, 'SeiteSchrift');
+  const ownHead = f.headingFile || (f.headingPreset && f.headingPreset !== 'same');
+  const headPreset = !f.headingPreset || f.headingPreset === 'same' ? f.preset : f.headingPreset;
+  const head = ownHead ? stack(headPreset, f.headingFile, 'SeiteSchriftTitel') : body;
+
+  let st = document.getElementById('seite-fonts');
+  if (css) {
+    if (!st) { st = document.createElement('style'); st.id = 'seite-fonts'; document.head.appendChild(st); }
+    st.textContent = css;
+  } else if (st) { st.remove(); }
+  const root = document.documentElement.style;
+  root.setProperty('--font', body);
+  root.setProperty('--font-head', head);
+}
+
+/* Logo im Browser-Tab */
+function setFavicon(path) {
+  const href = resolveImg(path);
+  if (!href) return;
+  document.querySelectorAll('link[rel~="icon"], link[rel="apple-touch-icon"]').forEach(n => n.remove());
+  ['icon', 'apple-touch-icon'].forEach(rel => {
+    const l = document.createElement('link');
+    l.rel = rel; l.href = href;
+    document.head.appendChild(l);
+  });
+}
+
 /* Akzentfarbe setzen und passende Schriftfarbe darauf berechnen */
 function applyTheme(site) {
   const a = site && site.accent;
