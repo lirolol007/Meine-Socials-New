@@ -33,7 +33,26 @@
 
   applyTheme(D.site);
   applyFonts(D.font);
+  applyGlow(D.glow);
   setFavicon(D.site.favicon || D.site.avatar);   // ohne eigenes Favicon wird das Profilbild genommen
+
+// Hintergrundbild pro Seite, abgedunkelt damit Texte lesbar bleiben
+  const bgEl = document.createElement('div');
+  bgEl.id = 'bg-img';
+  bgEl.setAttribute('aria-hidden', 'true');
+  document.body.insertBefore(bgEl, document.body.firstChild);
+  function setBackground(page) {
+    const B = D.backgrounds || {};
+    const src = String(B[page] || '').trim();
+    if (!src) { bgEl.classList.remove('on'); return; }
+    let dim = parseInt(B.dim, 10);
+    if (isNaN(dim)) dim = 55;
+    dim = Math.min(90, Math.max(0, dim)) / 100;
+    const url = resolveImg(src).replace(/["'\\\n\r()]/g, '');
+    const shade = `rgba(13, 13, 15, ${dim})`;
+    bgEl.style.backgroundImage = `linear-gradient(${shade}, ${shade}), url("${url}")`;
+    bgEl.classList.add('on');
+  }
 
   const label = p => D.nav[p] || { home: 'Home', blog: 'Blog', friends: 'Freunde', impressum: 'Impressum' }[p];
 
@@ -108,6 +127,7 @@
     const [pageRaw, argRaw] = raw.split('/');
     const page = PAGES.includes(pageRaw) ? pageRaw : 'home';
     const arg = argRaw ? decodeURIComponent(argRaw) : '';
+    setBackground(page);
 
     document.title = `${label(page)} – ${D.site.title || ''}`;
     app.innerHTML = { home: vHome, blog: vBlog, friends: vFriends, impressum: vImpressum }[page](arg);
