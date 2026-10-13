@@ -102,6 +102,61 @@ content:
             options:
               media: fonts
 
+      - name: backgrounds
+        label: Hintergrundbilder
+        type: object
+        fields:
+          - name: home
+            label: Hintergrund Startseite (optional)
+            type: image
+            options:
+              media: images
+          - name: blog
+            label: Hintergrund Blog (optional)
+            type: image
+            options:
+              media: images
+          - name: friends
+            label: Hintergrund Freunde (optional)
+            type: image
+            options:
+              media: images
+          - name: impressum
+            label: Hintergrund Impressum (optional)
+            type: image
+            options:
+              media: images
+          - name: dim
+            label: Abdunkelung der Hintergrundbilder in Prozent (0 = keine, Standard 55, max. 90)
+            type: number
+            default: 55
+            options:
+              min: 0
+              max: 90
+
+      - name: glow
+        label: Glow-Effekte
+        type: object
+        fields:
+          - name: color
+            label: Glow-Farbe als Hex-Code (z. B. #7aa2ff, leer = Akzentfarbe)
+            type: string
+            pattern:
+              regex: "^(#[0-9a-fA-F]{6})?$"
+              message: "Bitte einen Hex-Code wie #7aa2ff eintragen oder das Feld leer lassen"
+          - name: buttons
+            label: Glow hinter den Buttons
+            type: select
+            default: "off"
+            options:
+              values:
+                - name: "off"
+                  label: Aus
+                - name: hover
+                  label: Nur beim Drüberfahren
+                - name: always
+                  label: Immer sanft sichtbar
+
       - name: nav
         label: Menü-Buttons (Beschriftung)
         type: object
