@@ -15,7 +15,8 @@
     "dim": 55
   },
   "glow": {
-    "buttons": "off"
+    "color": "#ffffff",
+    "buttons": "hover"
   },
   "nav": {
     "home": "Home",
@@ -26,7 +27,7 @@
   "home": {
     "headline": "WILKOMMEN!!!!",
     "text": "Hier gehts zu meinen Kanälen :3",
-    "image": "/images/random.png"
+    "image": "/images/vrc-group-picture.png"
   },
   "links": [
     {
