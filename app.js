@@ -32,6 +32,8 @@
   D.friends.forEach(f => { f.links = f.links || []; });
 
   applyTheme(D.site);
+  applyFonts(D.font);
+  setFavicon(D.site.favicon || D.site.avatar);   // ohne eigenes Favicon wird das Profilbild genommen
 
   const label = p => D.nav[p] || { home: 'Home', blog: 'Blog', friends: 'Freunde', impressum: 'Impressum' }[p];
 
