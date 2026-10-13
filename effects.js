@@ -40,9 +40,9 @@
     coreStyle = `rgb(${col})`;
   }
 
-  // Akzentfarbe aus dem Design übernehmen (wird erst nach dem Laden der Seite gesetzt)
+  // Glow-Farbe aus dem Design übernehmen (wird erst nach dem Laden der Seite gesetzt)
   function readRgb() {
-    const raw = getComputedStyle(document.documentElement).getPropertyValue('--accent-rgb');
+    const raw = getComputedStyle(document.documentElement).getPropertyValue('--glow');
     const v = String(raw).split(',').map(n => parseInt(n, 10));
     if (v.length === 3 && v.every(n => n >= 0 && n <= 255) && v.join() !== rgb.join()) {
       rgb = v;
