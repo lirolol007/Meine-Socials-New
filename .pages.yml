@@ -2,10 +2,18 @@
 # Diese Datei muss im Repository als ".pages.yml" gespeichert werden (mit Punkt am Anfang).
 
 media:
-  input: images
-  output: /images
-  rename: safe
-  extensions: [png, jpg, jpeg, gif, webp, svg]
+  - name: images
+    label: Bilder
+    input: images
+    output: /images
+    rename: safe
+    extensions: [png, jpg, jpeg, gif, webp, svg, ico]
+  - name: fonts
+    label: Schriftarten
+    input: fonts
+    output: /fonts
+    rename: safe
+    extensions: [woff2, woff, ttf, otf]
 
 content:
   - name: seite
@@ -27,12 +35,72 @@ content:
           - name: avatar
             label: Profilbild
             type: image
+            options:
+              media: images
+          - name: favicon
+            label: Logo im Browser-Tab (optional, leer = Profilbild)
+            type: image
+            options:
+              media: images
           - name: accent
             label: Akzentfarbe (Hex-Code, z. B. #d0d0d6)
             type: string
             pattern:
               regex: "^#[0-9a-fA-F]{6}$"
               message: "Bitte einen Hex-Code wie #d0d0d6 eintragen"
+
+      - name: font
+        label: Schriftarten
+        type: object
+        fields:
+          - name: preset
+            label: Schriftart für Texte (Vorlage)
+            type: select
+            default: standard
+            options:
+              values:
+                - name: standard
+                  label: Standard (sauber)
+                - name: rund
+                  label: Rund und freundlich
+                - name: comic
+                  label: Comic
+                - name: handschrift
+                  label: Handschrift
+                - name: serif
+                  label: Serif (klassisch)
+                - name: mono
+                  label: Monospace (Code-Look)
+          - name: file
+            label: Eigene Schrift als Datei für Texte (ersetzt die Vorlage)
+            type: file
+            options:
+              media: fonts
+          - name: headingPreset
+            label: Schriftart für Überschriften (Vorlage)
+            type: select
+            default: same
+            options:
+              values:
+                - name: same
+                  label: Wie die Texte
+                - name: standard
+                  label: Standard (sauber)
+                - name: rund
+                  label: Rund und freundlich
+                - name: comic
+                  label: Comic
+                - name: handschrift
+                  label: Handschrift
+                - name: serif
+                  label: Serif (klassisch)
+                - name: mono
+                  label: Monospace (Code-Look)
+          - name: headingFile
+            label: Eigene Schrift als Datei für Überschriften (optional)
+            type: file
+            options:
+              media: fonts
 
       - name: nav
         label: Menü-Buttons (Beschriftung)
@@ -64,6 +132,8 @@ content:
           - name: image
             label: Eigenes Bild / Logo auf der Startseite (optional)
             type: image
+            options:
+              media: images
 
       - name: links
         label: Meine Links (Startseite)
@@ -85,6 +155,8 @@ content:
           - name: logo
             label: Eigenes Logo / Bild (ersetzt das Icon, optional)
             type: image
+            options:
+              media: images
 
       - name: posts
         label: Blog-Beiträge
@@ -105,6 +177,8 @@ content:
           - name: cover
             label: Titelbild
             type: image
+            options:
+              media: images
           - name: preview
             label: Vorschau-Text (kurz, erscheint auf der Karte)
             type: text
@@ -126,6 +200,8 @@ content:
           - name: avatar
             label: Profilbild
             type: image
+            options:
+              media: images
           - name: bio
             label: Kurztext (optional)
             type: text
@@ -146,6 +222,8 @@ content:
               - name: logo
                 label: Eigenes Logo / Bild (ersetzt das Icon, optional)
                 type: image
+                options:
+                  media: images
 
       - name: impressum
         label: Impressum
