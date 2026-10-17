@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0d0d0f">
+  <title>Bild-Ausschnitt</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    .tool { max-width: 560px; }
+    .tool .box { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 18px; margin-bottom: 16px; }
+    .tool label { display: block; font-size: .88rem; font-weight: 600; color: var(--muted); margin: 0 0 6px; }
+    .tool input[type=text], .tool input[type=file], .tool select {
+      width: 100%; font: inherit; font-size: 16px; color: var(--text);
+      background: var(--raised); border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px;
+    }
+    .tool input:focus, .tool select:focus { outline: none; border-color: var(--accent); }
+    .tool .row { display: flex; gap: 10px; margin-top: 10px; }
+    .tool .row input { flex: 1; min-width: 0; }
+    .btn {
+      appearance: none; cursor: pointer; font: inherit; font-weight: 600; font-size: .92rem;
+      color: var(--text); background: var(--raised); border: 1px solid var(--line);
+      padding: 10px 16px; border-radius: 10px; white-space: nowrap;
+    }
+    .btn:hover { border-color: var(--accent); }
+    .btn.primary { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+    .stage { display: flex; justify-content: center; padding: 6px 0 18px; }
+    .frame { position: relative; width: min(100%, var(--w, 360px)); overflow: hidden;
+      border: 1px solid var(--line); background: var(--raised); }
+    .frame.circle  { --w: 240px; aspect-ratio: 1; border-radius: 50%; }
+    .frame.square  { --w: 240px; aspect-ratio: 1; border-radius: 10px; }
+    .frame.card    { --w: 380px; aspect-ratio: 16 / 10; border-radius: 16px; }
+    .frame.wide    { --w: 100%;  aspect-ratio: 16 / 9; border-radius: 12px; }
+    .frame.natural { --w: 420px; border-radius: 14px; min-height: 120px; }
+    .frame img { width: 100%; display: block; }
+    .frame:not(.natural) img { height: 100%; object-fit: cover; }
+    .frame.natural img { height: auto; }
+    .slider { margin-bottom: 14px; }
+    .slider .top { display: flex; justify-content: space-between; font-size: .9rem; margin-bottom: 4px; }
+    .slider .top b { color: var(--text); }
+    .tool input[type=range] { width: 100%; accent-color: var(--accent); }
+    .hint { color: var(--muted); font-size: .88rem; margin: 8px 0 0; }
+    #out { font-size: 1.3rem; font-weight: 700; letter-spacing: .04em; text-align: center; }
+    #msg { color: #f0a0a0; min-height: 1.4em; text-align: center; margin: 0 0 10px; font-size: .92rem; }
+  </style>
+</head>
+<body>
+  <main class="wrap tool">
+    <h1 class="page-title">Bild-Ausschnitt</h1>
+    <p class="muted" style="margin-top:-12px">Stelle Zoom und Position ein und kopiere den Wert in das Feld „Zoom und Ausschnitt“ im CMS. Es wird nichts hochgeladen, alles passiert nur in deinem Browser.</p>
+
+    <section class="box">
+      <label for="file">Bild von deinem Gerät</label>
+      <input type="file" id="file" accept="image/*">
+      <label for="path" style="margin-top:14px">oder Pfad auf deiner Seite (z. B. images/foto.jpg)</label>
+      <div class="row">
+        <input type="text" id="path" placeholder="images/foto.jpg" autocapitalize="off" spellcheck="false">
+        <button class="btn" id="load">Laden</button>
+      </div>
+    </section>
+
+    <section class="box">
+      <label for="shape">Wofür ist das Bild?</label>
+      <select id="shape">
+        <option value="circle">Profilbild (rund)</option>
+        <option value="square">Logo im Link-Button (Quadrat)</option>
+        <option value="card">Blog-Titelbild (Vorschau-Karte)</option>
+        <option value="wide">Hintergrundbild (breit)</option>
+        <option value="natural">Startseiten-Bild oder Beitragsbild (Originalformat)</option>
+      </select>
+      <p class="hint" id="hint"></p>
+    </section>
+
+    <p id="msg">Wähle ein Bild aus.</p>
+    <div class="stage"><div class="frame circle" id="frame"><img id="img" alt="Vorschau"></div></div>
+
+    <section class="box">
+      <div class="slider">
+        <div class="top"><label for="zoom" style="margin:0">Zoom</label><b id="zv"></b></div>
+        <input type="range" id="zoom" min="100" max="400" step="5" value="100">
+      </div>
+      <div class="slider">
+        <div class="top"><label for="px" style="margin:0">Position links ↔ rechts</label><b id="xv"></b></div>
+        <input type="range" id="px" min="0" max="100" step="1" value="50">
+      </div>
+      <div class="slider" style="margin-bottom:0">
+        <div class="top"><label for="py" style="margin:0">Position oben ↔ unten</label><b id="yv"></b></div>
+        <input type="range" id="py" min="0" max="100" step="1" value="50">
+      </div>
+    </section>
+
+    <section class="box">
+      <label for="out">Dein Wert (Zoom, links/rechts, oben/unten)</label>
+      <input type="text" id="out" value="100 50 50" autocomplete="off" spellcheck="false">
+      <div class="row">
+        <button class="btn primary" id="copy" style="flex:1">Wert kopieren</button>
+        <button class="btn" id="reset">Zurücksetzen</button>
+      </div>
+      <p class="hint">Du kannst hier auch einen vorhandenen Wert einfügen und ihn nachbessern. „100 50 50“ bedeutet: unverändert.</p>
+    </section>
+  </main>
+
+  <script src="shared.js"></script>
+  <script src="ausschnitt.js"></script>
+</body>
+</html>
