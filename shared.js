@@ -50,6 +50,24 @@ const ICONS = {
   'paypal.me': '💸', 'paypal.com': '💸', 'pinterest.com': '📌', 'threads.net': '🧵'
 };
 
+/* Zoom und Ausschnitt: Wert "Zoom X Y", z. B. "140 50 35" (100 50 50 = unverändert).
+   Zoom in Prozent (100 bis 400), X/Y = Position in Prozent (0 bis 100). */
+function parseCrop(s) {
+  const n = String(s == null ? '' : s).match(/\d+/g);
+  if (!n || n.length < 3) return null;
+  const z = Math.min(400, Math.max(100, +n[0]));
+  const x = Math.min(100, +n[1]), y = Math.min(100, +n[2]);
+  return (z === 100 && x === 50 && y === 50) ? null : { z, x, y };
+}
+function cropStyle(s) {
+  const c = parseCrop(s);
+  return c ? `object-position:${c.x}% ${c.y}%;transform:scale(${c.z / 100});transform-origin:${c.x}% ${c.y}%` : '';
+}
+function cropAttr(s) {
+  const st = cropStyle(s);
+  return st ? ` style="${st}"` : '';
+}
+
 function emojiFor(l) {
   const ic = String(l.icon || '').trim();
   if (ic && !/\.(png|jpe?g|gif|webp|svg|avif)$/i.test(ic)) return esc(ic);
@@ -67,13 +85,13 @@ function iconHtml(l) {
   const logo = String(l.logo || '').trim();
   const ic = String(l.icon || '').trim();
   const img = logo || (/\.(png|jpe?g|gif|webp|svg|avif)$/i.test(ic) ? ic : '');
-  if (img) return `<span class="fb">${emojiFor(l)}</span><img src="${esc(resolveImg(img))}" alt="">`;
+  if (img) return `<span class="lg"><span class="fb">${emojiFor(l)}</span><img src="${esc(resolveImg(img))}" alt=""${cropAttr(logo ? l.logoCrop : '')}></span>`;
   return emojiFor(l);
 }
 
-function avatarHtml(src, name, size) {
+function avatarHtml(src, name, size, crop) {
   const letter = esc(String(name || '?').trim().charAt(0).toUpperCase() || '?');
-  const img = src ? `<img src="${esc(resolveImg(src))}" alt="${esc(name)}">` : '';
+  const img = src ? `<img src="${esc(resolveImg(src))}" alt="${esc(name)}"${cropAttr(crop)}>` : '';
   return `<div class="avatar ${size || 'md'}"><span>${letter}</span>${img}</div>`;
 }
 
@@ -94,7 +112,7 @@ function fmtDate(d) {
 
 function postCard(p, href) {
   const cover = p.cover
-    ? `<img src="${esc(resolveImg(p.cover))}" alt="" loading="lazy">`
+    ? `<img src="${esc(resolveImg(p.cover))}" alt="" loading="lazy"${cropAttr(p.coverCrop)}>`
     : '<div class="cover-ph">Kein Bild</div>';
   return `<a class="card post-card" href="${esc(href || '#')}">
     <div class="cover">${cover}</div>
@@ -111,7 +129,7 @@ function friendCard(f) {
     `<a class="chip" href="${esc(safeHref(l.url))}" target="_blank" rel="noopener noreferrer"><span>${iconHtml(l)}</span>${esc(l.label || l.url)}</a>`
   ).join('');
   return `<article class="card friend">
-    <div class="friend-head">${avatarHtml(f.avatar, f.name, 'md')}<h3>${esc(f.name || 'Name')}</h3></div>
+    <div class="friend-head">${avatarHtml(f.avatar, f.name, 'md', f.avatarCrop)}<h3>${esc(f.name || 'Name')}</h3></div>
     ${f.bio ? `<p>${esc(f.bio)}</p>` : ''}
     <div class="chips">${links}</div>
   </article>`;
