@@ -51,6 +51,11 @@
     const url = resolveImg(src).replace(/["'\\\n\r()]/g, '');
     const shade = `rgba(13, 13, 15, ${dim})`;
     bgEl.style.backgroundImage = `linear-gradient(${shade}, ${shade}), url("${url}")`;
+    // Zoom und Ausschnitt des Hintergrundbilds
+    const c = parseCrop(B[page + 'Crop']);
+    bgEl.style.backgroundPosition = c ? `${c.x}% ${c.y}%` : '';
+    bgEl.style.transform = c ? `scale(${c.z / 100})` : '';
+    bgEl.style.transformOrigin = c ? `${c.x}% ${c.y}%` : '';
     bgEl.classList.add('on');
   }
 
@@ -67,12 +72,12 @@
     const h = D.home;
     return `
       <section class="hero">
-        ${avatarHtml(D.site.avatar, D.site.title, 'lg')}
+        ${avatarHtml(D.site.avatar, D.site.title, 'lg', D.site.avatarCrop)}
         <h1>${esc(h.headline || D.site.title || '')}</h1>
         ${D.site.tagline ? `<p class="tagline">${esc(D.site.tagline)}</p>` : ''}
       </section>
       ${h.text ? `<div class="intro prose">${md(h.text)}</div>` : ''}
-      ${h.image ? `<img class="home-image" src="${esc(resolveImg(h.image))}" alt="">` : ''}
+      ${h.image ? `<div class="home-frame"><img class="home-image" src="${esc(resolveImg(h.image))}" alt=""${cropAttr(h.imageCrop)}></div>` : ''}
       <section class="links" aria-label="Meine Links">
         ${D.links.length ? D.links.map(l => linkBtn(l)).join('') : '<p class="empty">Noch keine Links.</p>'}
       </section>`;
@@ -90,7 +95,7 @@
       return `
         <article class="article">
           <a class="back" href="#/blog">← Zurück zum Blog</a>
-          ${p.cover ? `<img class="hero-img" src="${esc(resolveImg(p.cover))}" alt="">` : ''}
+          ${p.cover ? `<div class="hero-frame"><img class="hero-img" src="${esc(resolveImg(p.cover))}" alt=""${cropAttr(p.coverCrop)}></div>` : ''}
           <time>${esc(fmtDate(p.date))}</time>
           <h1>${esc(p.title)}</h1>
           <div class="prose">${md(p.content || p.preview || '')}</div>
