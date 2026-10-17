@@ -7,14 +7,24 @@ media:
     input: images
     output: /images
     rename: safe
-    extensions: [png, jpg, jpeg, gif, webp, svg, ico]
+    extensions:
+      - png
+      - jpg
+      - jpeg
+      - gif
+      - webp
+      - svg
+      - ico
   - name: fonts
     label: Schriftarten
     input: fonts
     output: /fonts
     rename: safe
-    extensions: [woff2, woff, ttf, otf]
-
+    extensions:
+      - woff2
+      - woff
+      - ttf
+      - otf
 content:
   - name: seite
     label: Meine Seite
@@ -37,18 +47,24 @@ content:
             type: image
             options:
               media: images
+          - name: avatarCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
           - name: favicon
             label: Logo im Browser-Tab (optional, leer = Profilbild)
             type: image
             options:
               media: images
           - name: accent
-            label: Akzentfarbe (Hex-Code, z. B. #d0d0d6)
+            label: Akzentfarbe (Hex-Code, z. B.
             type: string
             pattern:
-              regex: "^#[0-9a-fA-F]{6}$"
-              message: "Bitte einen Hex-Code wie #d0d0d6 eintragen"
-
+              regex: ^#[0-9a-fA-F]{6}$
+              message: 'Bitte einen Hex-Code wie #d0d0d6 eintragen'
       - name: font
         label: Schriftarten
         type: object
@@ -101,7 +117,6 @@ content:
             type: file
             options:
               media: fonts
-
       - name: backgrounds
         label: Hintergrundbilder
         type: object
@@ -111,21 +126,49 @@ content:
             type: image
             options:
               media: images
+          - name: homeCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
           - name: blog
             label: Hintergrund Blog (optional)
             type: image
             options:
               media: images
+          - name: blogCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
           - name: friends
             label: Hintergrund Freunde (optional)
             type: image
             options:
               media: images
+          - name: friendsCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
           - name: impressum
             label: Hintergrund Impressum (optional)
             type: image
             options:
               media: images
+          - name: impressumCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
           - name: dim
             label: Abdunkelung der Hintergrundbilder in Prozent (0 = keine, Standard 55, max. 90)
             type: number
@@ -133,30 +176,28 @@ content:
             options:
               min: 0
               max: 90
-
       - name: glow
         label: Glow-Effekte
         type: object
         fields:
           - name: color
-            label: Glow-Farbe als Hex-Code (z. B. #7aa2ff, leer = Akzentfarbe)
+            label: Glow-Farbe als Hex-Code (z. B.
             type: string
             pattern:
-              regex: "^(#[0-9a-fA-F]{6})?$"
-              message: "Bitte einen Hex-Code wie #7aa2ff eintragen oder das Feld leer lassen"
+              regex: ^(#[0-9a-fA-F]{6})?$
+              message: 'Bitte einen Hex-Code wie #7aa2ff eintragen oder das Feld leer lassen'
           - name: buttons
             label: Glow hinter den Buttons
             type: select
-            default: "off"
+            default: 'off'
             options:
               values:
-                - name: "off"
+                - name: 'off'
                   label: Aus
                 - name: hover
                   label: Nur beim Drüberfahren
                 - name: always
                   label: Immer sanft sichtbar
-
       - name: nav
         label: Menü-Buttons (Beschriftung)
         type: object
@@ -173,7 +214,6 @@ content:
           - name: impressum
             label: Button 4 (Impressum)
             type: string
-
       - name: home
         label: Startseite
         type: object
@@ -189,14 +229,20 @@ content:
             type: image
             options:
               media: images
-
+          - name: imageCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
       - name: links
         label: Meine Links (Startseite)
         type: object
         list:
           collapsible:
             collapsed: true
-            summary: "{label}"
+            summary: '{label}'
         fields:
           - name: label
             label: Name (z. B. Instagram)
@@ -212,14 +258,20 @@ content:
             type: image
             options:
               media: images
-
+          - name: logoCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
       - name: posts
         label: Blog-Beiträge
         type: object
         list:
           collapsible:
             collapsed: true
-            summary: "{title}"
+            summary: '{title}'
         fields:
           - name: title
             label: Titel
@@ -234,20 +286,26 @@ content:
             type: image
             options:
               media: images
+          - name: coverCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
           - name: preview
             label: Vorschau-Text (kurz, erscheint auf der Karte)
             type: text
           - name: content
             label: Beitragstext (Leerzeile = neuer Absatz, **fett**, [Text](https://link), ![](images/bild.jpg))
             type: text
-
       - name: friends
         label: Freunde
         type: object
         list:
           collapsible:
             collapsed: true
-            summary: "{name}"
+            summary: '{name}'
         fields:
           - name: name
             label: Name
@@ -257,6 +315,13 @@ content:
             type: image
             options:
               media: images
+          - name: avatarCrop
+            label: Zoom und Ausschnitt (optional)
+            type: string
+            description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+            pattern:
+              regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+              message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
           - name: bio
             label: Kurztext (optional)
             type: text
@@ -279,7 +344,13 @@ content:
                 type: image
                 options:
                   media: images
-
+              - name: logoCrop
+                label: Zoom und Ausschnitt (optional)
+                type: string
+                description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+                pattern:
+                  regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+                  message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
       - name: impressum
         label: Impressum
         type: object
