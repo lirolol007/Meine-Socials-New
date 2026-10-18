@@ -486,3 +486,52 @@ content:
           - name: text
             label: Text (Leerzeile = neuer Absatz)
             type: text
+      - name: contact
+        label: Kontaktformular (im Impressum)
+        type: object
+        fields:
+          - name: enabled
+            label: Kontaktformular im Impressum anzeigen
+            type: boolean
+            default: false
+          - name: formId
+            label: Formspree-Formular (Adresse oder ID)
+            type: string
+            description: In Formspree ein Formular anlegen und die Adresse einfügen, z. B. https://formspree.io/f/abcdwxyz. Leer = Formular bleibt unsichtbar.
+          - name: title
+            label: Überschrift
+            type: string
+            default: Kontakt
+          - name: intro
+            label: Einleitungstext
+            type: text
+            default: Schreib mir gern eine Nachricht. Ich antworte so schnell ich kann.
+          - name: nameLabel
+            label: Beschriftung Name-Feld
+            type: string
+            default: Name
+          - name: emailLabel
+            label: Beschriftung E-Mail-Feld
+            type: string
+            default: E-Mail-Adresse
+          - name: messageLabel
+            label: Beschriftung Nachrichten-Feld
+            type: string
+            default: Nachricht
+          - name: buttonText
+            label: Text des Senden-Buttons
+            type: string
+            default: Nachricht senden
+          - name: successText
+            label: Meldung nach dem Senden
+            type: string
+            default: Danke! Deine Nachricht wurde gesendet.
+          - name: consent
+            label: Text der Zustimmungs-Checkbox (Pflicht)
+            type: text
+            default: Ich willige ein, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet und über den Formular-Dienst Formspree per E-Mail an den Betreiber dieser Seite weitergeleitet werden.
+          - name: privacy
+            label: Datenschutzhinweis unter dem Formular
+            type: text
+            default: Deine Angaben (Name, E-Mail-Adresse, Nachricht) werden nur zur Bearbeitung deiner Anfrage verwendet und über den Dienst Formspree per E-Mail an mich weitergeleitet.
+            description: Mit [Text](https://…) kannst du auf deine Datenschutzerklärung verlinken.
