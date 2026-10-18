@@ -52,7 +52,7 @@ h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; letter-spacing: -0
   display: flex; align-items: center; gap: 12px; min-width: 0; flex: 0 0 auto; text-decoration: none;
   font-family: var(--font-head); font-weight: 600; font-size: 1.05rem;
 }
-.brand span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.brand > span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .nav { display: flex; gap: 8px; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 .nav::-webkit-scrollbar { display: none; }
 .nav a {
@@ -212,6 +212,29 @@ a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
 .prose img { border-radius: 12px; margin: 1.4em 0; border: 1px solid var(--line); }
 .prose a { text-decoration-color: var(--accent); text-underline-offset: 3px; }
 
+/* ---------- Kontaktformular ---------- */
+.contact { margin-top: 56px; padding: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; }
+.contact h2 { font-size: 1.6rem; margin-bottom: 8px; }
+.c-intro { margin: 0 0 22px; color: #b6b9c2; }
+.f { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+.f > span { font-size: .9rem; font-weight: 600; color: var(--muted); }
+.f input, .f textarea {
+  width: 100%; font: inherit; font-size: 16px; color: var(--text);
+  background: var(--raised); border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px;
+}
+.f input:focus, .f textarea:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 3px rgba(var(--glow), .18); }
+.f textarea { resize: vertical; min-height: 140px; line-height: 1.5; }
+.consent { display: flex; gap: 10px; align-items: flex-start; margin: 4px 0 20px; font-size: .9rem; color: #b6b9c2; }
+.consent input { flex: none; width: 18px; height: 18px; margin-top: 3px; accent-color: var(--accent); }
+.hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+button.btn { font: inherit; font-weight: 600; cursor: pointer; color: inherit; }
+button.btn.p { color: var(--on-accent); }
+button.btn:disabled { opacity: .6; cursor: default; }
+.form-msg { margin: 14px 0 0; min-height: 1.4em; font-size: .95rem; }
+.form-msg.ok { color: #9fd8ae; }
+.form-msg.err { color: #f0a0a0; }
+.fine { margin: 18px 0 0; color: var(--muted); font-size: .82rem; line-height: 1.5; }
+
 /* ---------- Fußzeile ---------- */
 .foot {
   padding: 28px var(--pad) calc(28px + env(safe-area-inset-bottom, 0px));
@@ -269,9 +292,10 @@ a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
   .sec { margin-top: 64px; }
 }
 @media (max-width: 640px) {
-  .brand span { display: none; }
+  .brand > span { display: none; }
   .bar { gap: 12px; }
-  .nav { flex: 1; justify-content: flex-end; gap: 6px; }
+  .nav { flex: 1; gap: 6px; }
+  .nav a:first-child { margin-left: auto; }
   .nav a { height: 40px; padding: 0 10px; font-size: .85rem; }
   .avatar.sm { width: 38px; height: 38px; font-size: 16px; }
   .wrap { padding-top: 36px; padding-bottom: 56px; }
@@ -298,9 +322,12 @@ a.card:hover { border-color: var(--accent); transform: translateY(-2px); }
   .friends-grid .chips { justify-content: center; }
 }
 
-@media (max-width: 380px) {
+@media (max-width: 420px) {
   .brand { display: none; }
-  .nav { justify-content: center; gap: 4px; }
+  .nav a:last-child { margin-right: auto; }
+}
+@media (max-width: 380px) {
+  .nav { gap: 4px; }
   .nav a { padding: 0 8px; font-size: .82rem; }
 }
 @media (max-width: 340px) {
