@@ -126,7 +126,7 @@
     "text": "Leon Karkutt-LiroStarCat\nc/o Autorenglück #14021\nAlbert-Einstein-Str. 47 (Keine Fanpost)\n02977 Hoyerswerda\n\n\nEmail: Kontakt.Liro@gmail.com"
   },
   "contact": {
-    "enabled": true,
+    "enabled": false,
     "formId": "https://formspree.io/f/mnpjrvno",
     "title": "Kontakt",
     "intro": "Schreib mir gern eine Nachricht. Ich antworte so schnell ich kann.",
