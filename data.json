@@ -60,6 +60,11 @@
       "label": "Supporte Mich :3",
       "url": "https://ko-fi.com/lirostarcat",
       "logo": "/images/kofisymbol.svg"
+    },
+    {
+      "label": "Liro VODs",
+      "url": "https://www.youtube.com/@LiroVODs",
+      "logo": "/images/vod-bild.png"
     }
   ],
   "posts": [
