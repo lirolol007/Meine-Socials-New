@@ -163,12 +163,74 @@
         : '<p class="empty">Noch keine Freunde eingetragen.</p>'}`;
   }
 
+  /* ---------- Kontaktformular (im Impressum, über Formspree) ---------- */
+  const DEF_CONSENT = 'Ich willige ein, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet und über den Formular-Dienst Formspree per E-Mail an den Betreiber dieser Seite weitergeleitet werden.';
+  const DEF_PRIVACY = 'Deine Angaben (Name, E-Mail-Adresse, Nachricht) werden nur zur Bearbeitung deiner Anfrage verwendet und über den Dienst Formspree per E-Mail an mich weitergeleitet.';
+  const inlineMd = t => md(t).replace(/^<p>/, '').replace(/<\/p>$/, '');
+
+  // Akzeptiert die ganze Adresse (https://formspree.io/f/abcdwxyz) oder nur die ID (abcdwxyz)
+  function formspreeUrl(v) {
+    const m = String(v || '').trim().match(/(?:formspree\.io\/f\/)?([A-Za-z0-9]{5,24})\/?$/);
+    return m ? 'https://formspree.io/f/' + m[1] : '';
+  }
+
+  function contactHtml() {
+    const C = D.contact || {};
+    if (!C.enabled || !formspreeUrl(C.formId)) return '';
+    return `
+      <section class="contact" id="contact">
+        <h2>${esc(C.title || 'Kontakt')}</h2>
+        ${C.intro ? `<p class="c-intro">${esc(C.intro)}</p>` : ''}
+        <form id="contact-form">
+          <label class="f"><span>${esc(C.nameLabel || 'Name')}</span><input name="name" required maxlength="100" autocomplete="name"></label>
+          <label class="f"><span>${esc(C.emailLabel || 'E-Mail-Adresse')}</span><input type="email" name="email" required maxlength="200" autocomplete="email"></label>
+          <label class="f"><span>${esc(C.messageLabel || 'Nachricht')}</span><textarea name="message" rows="6" required maxlength="5000"></textarea></label>
+          <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+          <label class="consent"><input type="checkbox" name="consent" required><span>${inlineMd(C.consent || DEF_CONSENT)}</span></label>
+          <button class="btn p" type="submit">${esc(C.buttonText || 'Nachricht senden')}</button>
+          <p class="form-msg" role="status" aria-live="polite"></p>
+        </form>
+        <p class="fine">${inlineMd(C.privacy || DEF_PRIVACY)}</p>
+      </section>`;
+  }
+
+  app.addEventListener('submit', async e => {
+    const form = e.target;
+    if (!form || form.id !== 'contact-form') return;
+    e.preventDefault();
+    const C = D.contact || {};
+    const msg = form.querySelector('.form-msg'), btn = form.querySelector('button[type=submit]');
+    const say = (t, cls) => { msg.textContent = t; msg.className = 'form-msg ' + (cls || ''); };
+    const url = formspreeUrl(C.formId);
+    if (!url) return;
+    if (form.elements._gotcha.value) return;              // Bot erkannt: nichts senden
+    btn.disabled = true; say('Sende …');
+    try {
+      const fd = new FormData(form);
+      const res = await fetch(url, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          _subject: `Neue Nachricht über ${D.site.title || 'deine Website'}`,
+          name: fd.get('name'), email: fd.get('email'), message: fd.get('message'),
+          _gotcha: ''
+        })
+      });
+      if (res.ok) { form.reset(); say(C.successText || 'Danke! Deine Nachricht wurde gesendet.', 'ok'); }
+      else if (res.status === 429) say('Zu viele Anfragen. Bitte warte einen Moment und versuche es erneut.', 'err');
+      else say('Das Senden hat nicht geklappt. Bitte versuche es später noch einmal.', 'err');
+    } catch (err) {
+      say('Keine Verbindung. Bitte versuche es später noch einmal.', 'err');
+    } finally { btn.disabled = false; }
+  });
+
   function vImpressum() {
     const i = D.impressum;
     return `
       <article class="article">
         <h1>${esc(i.title || label('impressum'))}</h1>
         <div class="prose">${md(i.text || '')}</div>
+        ${contactHtml()}
       </article>`;
   }
 
