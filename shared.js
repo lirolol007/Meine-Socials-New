@@ -21,6 +21,7 @@ function resolveImg(p) {
 function safeHref(u) {
   u = String(u || '').trim();
   if (/^(https?:|mailto:|tel:)/i.test(u)) return u;
+  if (/^#\/[\w\/%-]*$/.test(u)) return u;          // interne Seite, z. B. #/blog
   if (/^[\w-]+(\.[\w-]+)+(\/|$)/.test(u)) return 'https://' + u;
   return '#';
 }
@@ -95,12 +96,32 @@ function avatarHtml(src, name, size, crop) {
   return `<div class="avatar ${size || 'md'}"><span>${letter}</span>${img}</div>`;
 }
 
-function linkBtn(l) {
-  return `<a class="link-btn" href="${esc(safeHref(l.url))}" target="_blank" rel="noopener noreferrer">
+/* Domain für die Zeile unter dem Kanalnamen (falls kein eigener Untertitel gesetzt ist) */
+function hostOf(u) {
+  const raw = String(u || '').trim();
+  if (/^mailto:/i.test(raw)) return raw.replace(/^mailto:/i, '');
+  try { return new URL(safeHref(raw)).hostname.replace(/^www\./, ''); } catch (e) { return ''; }
+}
+
+/* Karte für einen Kanal (Startseite) */
+function channelCard(l) {
+  const sub = String(l.sub || '').trim() || hostOf(l.url);
+  return `<a class="chan" href="${esc(safeHref(l.url))}" target="_blank" rel="noopener noreferrer">
     <span class="ic">${iconHtml(l)}</span>
-    <span class="lbl">${esc(l.label || l.url)}</span>
-    <span class="go" aria-hidden="true">↗</span>
+    <span class="chan-t"><b>${esc(l.label || l.url)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</span>
   </a>`;
+}
+
+/* Button im Hero-Bereich: style = primary (hell) oder secondary (dunkel) */
+function ctaBtn(b) {
+  const href = safeHref(b.url);
+  const ext = /^https?:/i.test(href);
+  return `<a class="btn${b.style === 'secondary' ? '' : ' p'}" href="${esc(href)}"${ext ? ' target="_blank" rel="noopener noreferrer"' : ''}>${esc(b.label || b.url)}</a>`;
+}
+
+/* "Gaming, Streaming" -> ['Gaming', 'Streaming'] */
+function splitTags(s) {
+  return String(s || '').split(/[,;\n]/).map(t => t.trim()).filter(Boolean).slice(0, 12);
 }
 
 function fmtDate(d) {
