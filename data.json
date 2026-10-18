@@ -108,6 +108,17 @@
           "url": "https://www.tiktok.com/@lynxi.vrc?lang=de-DE"
         }
       ]
+    },
+    {
+      "name": "ChefMahlZeit",
+      "avatar": "/images/chefmahlzeit-pfp.jpeg",
+      "bio": "Einer von 1Mio Novas X3",
+      "links": [
+        {
+          "label": "Tiktok",
+          "url": "https://www.tiktok.com/@chefmahlzeit?lang=de-DE"
+        }
+      ]
     }
   ],
   "impressum": {
