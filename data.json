@@ -12,7 +12,6 @@
     "headingPreset": "comic"
   },
   "backgrounds": {
-    "home": "/images/random-1.png",
     "dim": 55
   },
   "glow": {
