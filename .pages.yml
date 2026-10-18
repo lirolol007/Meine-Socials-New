@@ -40,7 +40,7 @@ content:
             label: Dein Name / Seitenname
             type: string
           - name: tagline
-            label: Untertitel unter dem Namen
+            label: Kleines Schild über der Überschrift (z. B. Creator · Gamer)
             type: string
           - name: avatar
             label: Profilbild
@@ -219,11 +219,36 @@ content:
         type: object
         fields:
           - name: headline
-            label: Überschrift
+            label: Hauptüberschrift
             type: string
           - name: text
-            label: Begrüßungstext
+            label: Text unter der Überschrift
             type: text
+          - name: buttons
+            label: Buttons im Kopfbereich (optional)
+            type: object
+            list:
+              collapsible:
+                collapsed: true
+                summary: '{label}'
+            fields:
+              - name: label
+                label: Beschriftung (z. B. Auf Twitch ansehen)
+                type: string
+              - name: url
+                label: Ziel
+                type: string
+                description: 'Ganze Adresse (https://…) oder eine Seite der Website: #/blog, #/friends, #/impressum'
+              - name: style
+                label: Aussehen
+                type: select
+                default: primary
+                options:
+                  values:
+                    - name: primary
+                      label: Hell (Hauptbutton)
+                    - name: secondary
+                      label: Dunkel (Nebenbutton)
           - name: image
             label: Eigenes Bild / Logo auf der Startseite (optional)
             type: image
@@ -236,6 +261,102 @@ content:
             pattern:
               regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
               message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
+          - name: sections
+            label: Bereiche der Startseite (hinzufügen, löschen, verschieben)
+            description: Leer = die Seite zeigt Kanäle, Beiträge und Freunde. Sobald du hier Bereiche einträgst, erscheinen genau diese in dieser Reihenfolge.
+            type: block
+            list:
+              collapsible:
+                collapsed: true
+                summary: '{title}'
+            blockKey: type
+            blocks:
+              - name: channels
+                label: Meine Kanäle (deine Links als Karten)
+                fields:
+                  - name: title
+                    label: Überschrift
+                    type: string
+                    default: Meine Kanäle
+              - name: text
+                label: Text mit Bild (z. B. Über mich)
+                fields:
+                  - name: title
+                    label: Überschrift
+                    type: string
+                    default: Über mich
+                  - name: text
+                    label: Text (Leerzeile = neuer Absatz)
+                    type: text
+                  - name: image
+                    label: Bild (optional)
+                    type: image
+                    options:
+                      media: images
+                  - name: imageCrop
+                    label: Zoom und Ausschnitt (optional)
+                    type: string
+                    description: Wert aus dem Bild-Ausschnitt-Helfer einfügen (deine-domain.de/ausschnitt.html), z. B. 140 50 35. Leer = unverändert.
+                    pattern:
+                      regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
+                      message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
+                  - name: imageSide
+                    label: Bild steht
+                    type: select
+                    default: left
+                    options:
+                      values:
+                        - name: left
+                          label: Links
+                        - name: right
+                          label: Rechts
+                  - name: tags
+                    label: Stichworte (mit Komma getrennt, optional)
+                    type: string
+                    description: z. B. Gaming, Streaming, Community
+                  - name: buttonLabel
+                    label: Button-Beschriftung (optional)
+                    type: string
+                  - name: buttonUrl
+                    label: Button-Ziel (optional)
+                    type: string
+                    description: 'https://… oder #/blog, #/friends'
+              - name: posts
+                label: Neueste Beiträge
+                fields:
+                  - name: title
+                    label: Überschrift
+                    type: string
+                    default: Neueste Beiträge
+                  - name: count
+                    label: Wie viele anzeigen?
+                    type: number
+                    default: 3
+                    options:
+                      min: 1
+                      max: 12
+                  - name: linkLabel
+                    label: Text des Links rechts (leer = kein Link)
+                    type: string
+                    default: Alle Beiträge →
+              - name: friends
+                label: Freunde
+                fields:
+                  - name: title
+                    label: Überschrift
+                    type: string
+                    default: Freunde
+                  - name: count
+                    label: Wie viele anzeigen?
+                    type: number
+                    default: 4
+                    options:
+                      min: 1
+                      max: 12
+                  - name: linkLabel
+                    label: Text des Links rechts (leer = kein Link)
+                    type: string
+                    default: Alle ansehen →
       - name: links
         label: Meine Links (Startseite)
         type: object
@@ -250,6 +371,10 @@ content:
           - name: url
             label: Adresse (https://…)
             type: string
+          - name: sub
+            label: Zeile unter dem Namen (optional, z. B. @deinname)
+            type: string
+            description: Leer = die Domain, z. B. instagram.com
           - name: icon
             label: Icon (optional, Emoji. Leer = automatisch)
             type: string
