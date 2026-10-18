@@ -1,6 +1,7 @@
 (async function () {
   const app = document.getElementById('app');
   const navEl = document.getElementById('nav');
+  const brandEl = document.getElementById('brand');
   const foot = document.getElementById('foot');
   const PAGES = ['home', 'blog', 'friends', 'impressum'];
   let D;
@@ -36,7 +37,7 @@
   applyGlow(D.glow);
   setFavicon(D.site.favicon || D.site.avatar);   // ohne eigenes Favicon wird das Profilbild genommen
 
-// Hintergrundbild pro Seite, abgedunkelt damit Texte lesbar bleiben
+  // Hintergrundbild pro Seite, abgedunkelt damit Texte lesbar bleiben
   const bgEl = document.createElement('div');
   bgEl.id = 'bg-img';
   bgEl.setAttribute('aria-hidden', 'true');
@@ -61,32 +62,77 @@
 
   const label = p => D.nav[p] || { home: 'Home', blog: 'Blog', friends: 'Freunde', impressum: 'Impressum' }[p];
 
-  navEl.innerHTML = PAGES
-    .map(p => `<a href="#/${p}" data-page="${p}">${esc(label(p))}</a>`).join('');
+  /* ---------- Kopfleiste und Fußzeile ---------- */
+  brandEl.innerHTML = `${avatarHtml(D.site.avatar, D.site.title, 'sm', D.site.avatarCrop)}<span>${esc(D.site.title || '')}</span>`;
+  navEl.innerHTML = PAGES.map(p => `<a href="#/${p}" data-page="${p}">${esc(label(p))}</a>`).join('');
+  foot.innerHTML = `<div class="foot-in"><span>© ${new Date().getFullYear()} ${esc(D.site.title || '')}</span>` +
+    `<nav aria-label="Fußmenü">${PAGES.map(p => `<a href="#/${p}">${esc(label(p))}</a>`).join('')}</nav></div>`;
 
-  const year = new Date().getFullYear();
-  foot.innerHTML = `© ${year} ${esc(D.site.title || '')} · <a href="#/impressum">${esc(label('impressum'))}</a>`;
+  /* ---------- Startseite: Hero + Bausteine ---------- */
+  const sortedPosts = () => [...D.posts].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
+  const num = (v, def) => { const n = parseInt(v, 10); return n > 0 ? n : def; };
+  const secHead = (title, linkLabel, href) =>
+    `<div class="sh"><h2>${esc(title)}</h2>${linkLabel ? `<a href="${href}">${esc(linkLabel)}</a>` : ''}</div>`;
 
-  /* ---------- Ansichten ---------- */
+  function renderSection(b) {
+    b = b || {};
+    switch (b.type) {
+      case 'channels':
+        if (!D.links.length) return '';
+        return `<section class="sec">${secHead(b.title || 'Meine Kanäle')}
+          <div class="chan-grid">${D.links.map(channelCard).join('')}</div></section>`;
+
+      case 'text': {
+        const img = b.image
+          ? `<div class="txt-img"><img src="${esc(resolveImg(b.image))}" alt="" loading="lazy"${cropAttr(b.imageCrop)}></div>` : '';
+        const tags = splitTags(b.tags).map(t => `<span class="chip static">${esc(t)}</span>`).join('');
+        const btn = b.buttonLabel && b.buttonUrl ? ctaBtn({ label: b.buttonLabel, url: b.buttonUrl, style: 'secondary' }) : '';
+        return `<section class="sec txt${img ? ' has-img' : ''}${b.imageSide === 'right' ? ' img-right' : ''}">${img}
+          <div class="txt-body">${b.title ? `<h2>${esc(b.title)}</h2>` : ''}
+            ${b.text ? `<div class="prose">${md(b.text)}</div>` : ''}
+            ${tags ? `<div class="chips">${tags}</div>` : ''}${btn}</div></section>`;
+      }
+
+      case 'posts': {
+        const list = sortedPosts().slice(0, num(b.count, 3));
+        if (!list.length) return '';
+        const ll = b.linkLabel === undefined ? 'Alle Beiträge →' : b.linkLabel;
+        return `<section class="sec">${secHead(b.title || 'Neueste Beiträge', ll, '#/blog')}
+          <div class="grid compact">${list.map(p => postCard(p, '#/blog/' + encodeURIComponent(p.id))).join('')}</div></section>`;
+      }
+
+      case 'friends': {
+        const list = D.friends.slice(0, num(b.count, 4));
+        if (!list.length) return '';
+        const ll = b.linkLabel === undefined ? 'Alle ansehen →' : b.linkLabel;
+        return `<section class="sec">${secHead(b.title || 'Freunde', ll, '#/friends')}
+          <div class="grid friends-grid">${list.map(f => friendCard(f)).join('')}</div></section>`;
+      }
+      default: return '';
+    }
+  }
+
   function vHome() {
-    const h = D.home;
+    const h = D.home, s = D.site;
+    const buttons = (h.buttons || []).filter(b => b && (b.label || b.url)).map(ctaBtn).join('');
+    // Ohne eigene Bausteine im CMS: Kanäle, Beiträge, Freunde
+    const sections = Array.isArray(h.sections) && h.sections.length
+      ? h.sections : [{ type: 'channels' }, { type: 'posts' }, { type: 'friends' }];
     return `
       <section class="hero">
-        ${avatarHtml(D.site.avatar, D.site.title, 'lg', D.site.avatarCrop)}
-        <h1>${esc(h.headline || D.site.title || '')}</h1>
-        ${D.site.tagline ? `<p class="tagline">${esc(D.site.tagline)}</p>` : ''}
+        <div class="hero-text">
+          ${s.tagline ? `<span class="tag">${esc(s.tagline)}</span>` : ''}
+          <h1>${esc(h.headline || s.title || '')}</h1>
+          ${h.text ? `<div class="lead prose">${md(h.text)}</div>` : ''}
+          ${buttons ? `<div class="cta">${buttons}</div>` : ''}
+        </div>
+        <div class="hero-av">${avatarHtml(s.avatar, s.title, 'xl', s.avatarCrop)}</div>
       </section>
-      ${h.text ? `<div class="intro prose">${md(h.text)}</div>` : ''}
       ${h.image ? `<div class="home-frame"><img class="home-image" src="${esc(resolveImg(h.image))}" alt=""${cropAttr(h.imageCrop)}></div>` : ''}
-      <section class="links" aria-label="Meine Links">
-        ${D.links.length ? D.links.map(l => linkBtn(l)).join('') : '<p class="empty">Noch keine Links.</p>'}
-      </section>`;
+      ${sections.map(renderSection).join('')}`;
   }
 
-  function sortedPosts() {
-    return [...D.posts].sort((a, b) => String(b.date || '').localeCompare(String(a.date || '')));
-  }
-
+  /* ---------- Blog, Freunde, Impressum ---------- */
   function vBlog(id) {
     if (id) {
       const p = D.posts.find(x => x.id === id);
