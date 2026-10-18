@@ -97,6 +97,17 @@
           "url": "https://www.tiktok.com/@miausor_?lang=de-DE"
         }
       ]
+    },
+    {
+      "name": "Lynxi",
+      "avatar": "/images/lynxi-pfp.jpeg",
+      "bio": "Eine weitere Katze auf Tiktok x3",
+      "links": [
+        {
+          "label": "Tiktok",
+          "url": "https://www.tiktok.com/@lynxi.vrc?lang=de-DE"
+        }
+      ]
     }
   ],
   "impressum": {
