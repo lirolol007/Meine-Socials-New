@@ -119,6 +119,25 @@
           "url": "https://www.tiktok.com/@chefmahlzeit?lang=de-DE"
         }
       ]
+    },
+    {
+      "name": "Sethe",
+      "avatar": "/images/sethe-pfp.png",
+      "bio": "Ein Rentner Barde :3",
+      "links": [
+        {
+          "label": "Twitch",
+          "url": "https://www.twitch.tv/sethevt"
+        },
+        {
+          "label": "Youtube",
+          "url": "https://www.youtube.com/@Sethe_Galenea"
+        },
+        {
+          "label": "Tiktok",
+          "url": "https://www.tiktok.com/@sethegalenea"
+        }
+      ]
     }
   ],
   "impressum": {
