@@ -103,16 +103,28 @@ function hostOf(u) {
   try { return new URL(safeHref(raw)).hostname.replace(/^www\./, ''); } catch (e) { return ''; }
 }
 
-/* Karte für einen Kanal (Startseite) */
-function channelCard(l) {
+/* Eine Zeile in der Linkliste (Startseite) */
+function linkRow(l) {
   const sub = String(l.sub || '').trim() || hostOf(l.url);
-  return `<a class="chan" href="${esc(safeHref(l.url))}" target="_blank" rel="noopener noreferrer">
-    <span class="ic">${iconHtml(l)}</span>
-    <span class="chan-t"><b>${esc(l.label || l.url)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</span>
+  return `<a class="lnk" href="${esc(safeHref(l.url))}" target="_blank" rel="noopener noreferrer">
+    <span class="tl">${iconHtml(l)}</span>
+    <span class="lnk-t"><b>${esc(l.label || l.url)}</b>${sub ? `<small>${esc(sub)}</small>` : ''}</span>
+    <span class="go" aria-hidden="true">↗</span>
   </a>`;
 }
 
-/* Button im Hero-Bereich: style = primary (hell) oder secondary (dunkel) */
+/* Links in Gruppen: "group" steht nur beim ersten Link einer Gruppe, die folgenden gehören dazu */
+function groupLinks(links) {
+  const out = []; let cur = null;
+  (links || []).forEach(l => {
+    const g = String(l.group || '').trim();
+    if (!cur || (g && g !== cur.name)) { cur = { name: g, items: [] }; out.push(cur); }
+    cur.items.push(l);
+  });
+  return out;
+}
+
+/* Button unter dem Text: style = primary (hell) oder secondary (dunkel) */
 function ctaBtn(b) {
   const href = safeHref(b.url);
   const ext = /^https?:/i.test(href);
