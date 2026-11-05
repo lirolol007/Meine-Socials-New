@@ -40,7 +40,7 @@ content:
             label: Dein Name / Seitenname
             type: string
           - name: tagline
-            label: Kleines Schild über der Überschrift (z. B. Creator · Gamer)
+            label: Zeile unter dem Namen (z. B. Creator · Gamer)
             type: string
           - name: avatar
             label: Profilbild
@@ -219,13 +219,13 @@ content:
         type: object
         fields:
           - name: headline
-            label: Hauptüberschrift
+            label: Name / Überschrift links (leer = Seitenname)
             type: string
           - name: text
-            label: Text unter der Überschrift
+            label: Kurztext unter dem Namen
             type: text
           - name: buttons
-            label: Buttons im Kopfbereich (optional)
+            label: Buttons unter dem Text (optional)
             type: object
             list:
               collapsible:
@@ -250,7 +250,7 @@ content:
                     - name: secondary
                       label: Dunkel (Nebenbutton)
           - name: image
-            label: Eigenes Bild / Logo auf der Startseite (optional)
+            label: Eigenes Bild / Logo links unter dem Text (optional)
             type: image
             options:
               media: images
@@ -262,8 +262,8 @@ content:
               regex: ^(\d{2,3}\s+\d{1,3}\s+\d{1,3})?$
               message: Bitte drei Zahlen mit Leerzeichen, z. B. 140 50 35, oder das Feld leer lassen
           - name: sections
-            label: Bereiche der Startseite (hinzufügen, löschen, verschieben)
-            description: Leer = die Seite zeigt Kanäle, Beiträge und Freunde. Sobald du hier Bereiche einträgst, erscheinen genau diese in dieser Reihenfolge.
+            label: Alte Startseiten-Bereiche (werden nicht mehr angezeigt)
+            description: Die Startseite zeigt jetzt nur noch dein Profil und die Links. Hier stehen nur noch deine alten Einträge. Du kannst sie behalten oder löschen.
             type: block
             list:
               collapsible:
@@ -358,7 +358,7 @@ content:
                     type: string
                     default: Alle ansehen →
       - name: links
-        label: Meine Links (Startseite)
+        label: Meine Links (Startseite, in dieser Reihenfolge)
         type: object
         list:
           collapsible:
@@ -371,6 +371,10 @@ content:
           - name: url
             label: Adresse (https://…)
             type: string
+          - name: group
+            label: Gruppe (nur beim ersten Link einer Gruppe eintragen, optional)
+            type: string
+            description: z. B. Social Media. Alle Links darunter gehören zu dieser Gruppe, bis du bei einem späteren Link eine neue Gruppe einträgst. Leer lassen = keine Überschrift.
           - name: sub
             label: Zeile unter dem Namen (optional, z. B. @deinname)
             type: string
