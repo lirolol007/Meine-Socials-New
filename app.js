@@ -202,6 +202,7 @@
     const page = PAGES.includes(pageRaw) ? pageRaw : 'home';
     const arg = argRaw ? decodeURIComponent(argRaw) : '';
     setBackground(page);
+    document.body.dataset.page = page;
 
     document.title = `${label(page)} – ${D.site.title || ''}`;
     app.innerHTML = { home: vHome, blog: vBlog, friends: vFriends, impressum: vImpressum }[page](arg);
