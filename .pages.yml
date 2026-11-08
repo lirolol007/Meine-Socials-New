@@ -219,10 +219,10 @@ content:
         type: object
         fields:
           - name: headline
-            label: Name / Überschrift links (leer = Seitenname)
+            label: Name / große Überschrift unter dem Profilbild (leer = Seitenname)
             type: string
           - name: text
-            label: Kurztext unter dem Namen
+            label: Kurztext unter dem Namen (optional)
             type: text
           - name: buttons
             label: Buttons unter dem Text (optional)
@@ -250,7 +250,7 @@ content:
                     - name: secondary
                       label: Dunkel (Nebenbutton)
           - name: image
-            label: Eigenes Bild / Logo links unter dem Text (optional)
+            label: Eigenes Bild / Logo unter dem Text (optional)
             type: image
             options:
               media: images
@@ -372,9 +372,9 @@ content:
             label: Adresse (https://…)
             type: string
           - name: group
-            label: Gruppe (nur beim ersten Link einer Gruppe eintragen, optional)
+            label: Überschrift über einer Gruppe (nur beim ersten Link der Gruppe, optional)
             type: string
-            description: z. B. Social Media. Alle Links darunter gehören zu dieser Gruppe, bis du bei einem späteren Link eine neue Gruppe einträgst. Leer lassen = keine Überschrift.
+            description: z. B. My Socials! Alle Links darunter gehören zu dieser Gruppe, bis du bei einem späteren Link eine neue Überschrift einträgst. Leer = keine Überschrift.
           - name: sub
             label: Zeile unter dem Namen (optional, z. B. @deinname)
             type: string
