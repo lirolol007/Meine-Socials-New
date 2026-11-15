@@ -12,6 +12,11 @@
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.4.12"
+    "@tsparticles/astro": "^4.6.0",
+    "@tsparticles/engine": "^4.6.0",
+    "@tsparticles/preset-hyperspace": "^4.6.0",
+    "@tsparticles/preset-stars": "^4.6.0",
+    "astro": "^7.4.12",
+    "tsparticles": "^4.6.0"
   }
 }

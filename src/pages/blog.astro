@@ -1,0 +1,86 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+    <div class="video-container">
+
+        <div class="video-wrapper">
+            <iframe
+                    src="https://player.twitch.tv/?channel=lirooo0&parent=liro-socials.me"
+                    allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="video-wrapper">
+            <iframe
+                    src="https://www.youtube-nocookie.com/embed?listType=playlist&list=UUS73h2U8ZJQlUZ7u5GGXrhA"
+                    allowfullscreen>
+            </iframe>
+        </div>
+
+        <div class="video-wrapper tiktok-scale-wrapper">
+            <blockquote class="tiktok-embed" cite="https://www.tiktok.com/@liro7160" data-unique-id="liro7160" data-embed-type="creator">
+                <section>
+                    <a target="_blank" href="https://www.tiktok.com/@liro7160?refer=creator_embed">@liro7160</a>
+                </section>
+            </blockquote>
+        </div>
+
+        <div class="video-wrapper">
+            <iframe
+                    src="https://www.instagram.com/lirooo0/embed"
+                    allowtransparency="true">
+            </iframe>
+        </div>
+
+    </div>
+</Layout>
+
+<style>
+    .video-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px;
+        justify-content: center;
+    }
+
+    .video-wrapper {
+        flex: 1 1 48%;
+        aspect-ratio: 16 / 9;
+        position: relative;
+        overflow: hidden;
+        background: #000;
+        border-radius: 8px;
+    }
+
+    .video-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+    }
+
+    .video-wrapper.tiktok-scale-wrapper blockquote.tiktok-embed,
+    .video-wrapper.tiktok-scale-wrapper iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 143% !important;
+        height: 143% !important;
+        transform: scale(0.7);
+        transform-origin: top left;
+        border: 0;
+        margin: 0 !important;
+    }
+
+    @media (max-width: 768px) {
+        .video-wrapper {
+            flex: 1 1 100%;
+        }
+    }
+</style>
+
+<script is:inline async src="https://www.tiktok.com/embed.js"></script>

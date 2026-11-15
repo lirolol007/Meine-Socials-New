@@ -1,0 +1,49 @@
+:root {
+    --bg: #0d0d0f;
+    --surface: #161618;
+    --raised: #1f1f22;
+    --line: #2d2d31;
+    --text: #ececef;
+    --muted: #9a9aa2;
+    --accent: #d0d0d6;
+    --on-accent: #0c0c0e;
+    --accent-rgb: 208, 208, 214;
+    --glow: var(--glow-rgb, var(--accent-rgb));
+    --radius: 14px;
+    --max: 1120px;
+    --pad: clamp(18px, 5vw, 64px);
+    --font: "Comic Neue", "Comic Sans MS", "Comic Sans", "Chalkboard SE", "Marker Felt", cursive;
+    --font-head: var(--font);
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-padding-top: 90px; }
+body {
+    margin: 0;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: var(--bg);
+    background-image: radial-gradient(900px 420px at 50% -80px, #222226 0%, transparent 70%);
+    background-repeat: no-repeat;
+    color: var(--text);
+    font: 16px/1.65 var(--font);
+    -webkit-font-smoothing: antialiased;
+}
+img { max-width: 100%; display: block; }
+
+a { color: inherit; }
+
+h1, h2, h3 { font-family: var(--font-head); line-height: 1.2; letter-spacing: -0.02em; margin: 0; }
+.broken { display: none !important; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 6px; }
+
+.content {
+    flex: 1 0 auto;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 5rem 1rem;
+    width: 100%;
+    box-sizing: border-box;
+}

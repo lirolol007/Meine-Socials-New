@@ -1,0 +1,308 @@
+---
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout>
+    <article class="article">
+
+        <h1>Impressum</h1>
+
+        <div class="prose">
+            <p>Leon Karkutt-LiroStarCat
+                <br>c/o Autorenglück #14021
+                <br>Albert-Einstein-Str. 47 (Keine Fanpost)
+                <br>02977 Hoyerswerda
+            </p>
+            <p>Email: Kontakt.Liro@gmail.com</p>
+        </div>
+
+        <section class="contact" id="contact">
+            <h2>Kontakt</h2>
+            <p class="c-intro">Schreib mir gern eine Nachricht. Ich antworte so schnell ich kann.</p>
+
+            <form id="contact-form">
+
+                <label class="f">
+                    <span>Name</span>
+                    <input name="name" required maxlength="100" autocomplete="name">
+                </label>
+
+                <label class="f">
+                    <span>E-Mail-Adresse</span>
+                    <input type="email" name="email" required maxlength="200" autocomplete="email">
+                </label>
+
+                <label class="f">
+                    <span>Nachricht</span>
+                    <textarea name="message" rows="6" required maxlength="5000"></textarea>
+                </label>
+
+                <input type="text" name="_gotcha" class="hp" tabindex="-1" autocomplete="off" aria-hidden="true" style="display:none !important">
+
+                <label class="consent">
+                    <input type="checkbox" name="consent" required>
+                    <span>Ich willige ein, dass meine Angaben zur Bearbeitung meiner Anfrage verarbeitet und über den Formular-Dienst Formspree per E-Mail an den Betreiber dieser Seite weitergeleitet werden.</span>
+                </label>
+
+                <button class="btn p" type="submit">Nachricht senden</button>
+
+                <p class="form-msg" role="status" aria-live="polite"></p>
+
+            </form>
+
+            <p class="fine">Deine Angaben (Name, E-Mail-Adresse, Nachricht) werden nur zur Bearbeitung deiner Anfrage
+                verwendet und über den Dienst Formspree per E-Mail an mich weitergeleitet.</p>
+
+        </section>
+    </article>
+</Layout>
+
+<script>
+    const form = document.getElementById('contact-form') as HTMLFormElement | null;
+
+    if (form) {
+        const msg = form.querySelector('.form-msg') as HTMLElement | null;
+        const btn = form.querySelector('button[type=submit]') as HTMLButtonElement | null;
+
+        const say = (t: string, cls?: string) => {
+            if (msg) {
+                msg.textContent = t;
+                msg.className = 'form-msg ' + (cls || '');
+            }
+        };
+
+        const url = "https://formspree.io/f/mnpjrvno";
+
+        form.addEventListener('submit', async e => {
+            e.preventDefault();
+
+            const gotchaInput = form.elements.namedItem('_gotcha') as HTMLInputElement | null;
+            if (gotchaInput && gotchaInput.value) return;
+
+            if (btn) btn.disabled = true;
+            say('Sende …');
+
+            try {
+                const fd = new FormData(form);
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+                    body: JSON.stringify({
+                        _subject: `Neue Nachricht über deine Website`,
+                        name: fd.get('name'),
+                        email: fd.get('email'),
+                        message: fd.get('message'),
+                        _gotcha: ''
+                    })
+                });
+
+                if (res.ok) {
+                    form.reset();
+                    say('Danke! Deine Nachricht wurde gesendet.', 'ok');
+                }
+                else if (res.status === 429) {
+                    say('Zu viele Anfragen. Bitte warte einen Moment und versuche es erneut.', 'err');
+                }
+                else {
+                    say('Das Senden hat nicht geklappt. Bitte versuche es später noch einmal.', 'err');
+                }
+            } catch (err) {
+                say('Keine Verbindung. Bitte versuche es später noch einmal.', 'err');
+            } finally {
+                if (btn) btn.disabled = false;
+            }
+        });
+    }
+</script>
+
+<style>
+    /* Artikel & Impressum */
+    .article {
+        max-width: 680px;
+        margin: 0 auto;
+    }
+
+    .back {
+        display: inline-block;
+        margin-bottom: 24px;
+        color: var(--muted);
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+    .back:hover {
+        color: var(--text);
+    }
+
+    .hero-frame {
+        overflow: hidden;
+        border-radius: var(--radius);
+        border: 1px solid var(--line);
+        margin-bottom: 26px;
+    }
+
+    .article .hero-img {
+        width: 100%;
+        display: block;
+    }
+
+    .article time {
+        color: var(--muted);
+        font-size: .9rem;
+    }
+
+    .article h1 {
+        font-size: clamp(1.8rem, 5vw, 2.5rem);
+        margin: 6px 0 22px;
+        text-wrap: balance;
+    }
+
+    .prose {
+        overflow-wrap: anywhere;
+    }
+
+    .prose p {
+        margin: 0 0 1.1em;
+    }
+
+    .prose img {
+        border-radius: 12px;
+        margin: 1.4em 0;
+        border: 1px solid var(--line);
+    }
+
+    .prose a {
+        text-decoration-color: var(--accent);
+        text-underline-offset: 3px;
+    }
+
+    /* Kontaktformular */
+    .contact {
+        margin-top: 56px;
+        padding: 28px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+    }
+
+    .contact h2 {
+        font-size: 1.6rem;
+        margin-bottom: 8px;
+    }
+
+    .c-intro {
+        margin: 0 0 22px;
+        color: #b6b9c2;
+    }
+
+    .f {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        margin-bottom: 16px;
+    }
+
+    .f > span {
+        font-size: .9rem;
+        font-weight: 600;
+        color: var(--muted);
+    }
+
+    .f input, .f textarea {
+        width: 100%;
+        font: inherit;
+        font-size: 16px;
+        color: var(--text);
+        background: var(--raised);
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        padding: 12px 14px;
+    }
+
+    .f input:focus, .f textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(var(--glow), .18);
+    }
+
+    .f textarea {
+        resize: vertical;
+        min-height: 140px;
+        line-height: 1.5;
+    }
+
+    .consent {
+        display: flex;
+        gap: 10px;
+        align-items: flex-start;
+        margin: 4px 0 20px;
+        font-size: .9rem;
+        color: #b6b9c2;
+    }
+
+    .consent input {
+        flex: none;
+        width: 18px;
+        height: 18px;
+        margin-top: 3px;
+        accent-color: var(--accent);
+    }
+
+    .hp {
+        position: absolute;
+        left: -9999px;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+    }
+
+    button.btn {
+        font: inherit;
+        font-weight: 600;
+        cursor: pointer;
+        color: inherit;
+    }
+
+    button.btn.p {
+        color: var(--on-accent);
+    }
+
+    button.btn:disabled {
+        opacity: .6;
+        cursor: default;
+    }
+
+    .form-msg {
+        margin: 14px 0 0;
+        min-height: 1.4em;
+        font-size: .95rem;
+    }
+
+    .form-msg.ok {
+        color: #9fd8ae;
+    }
+
+    .form-msg.err {
+        color: #f0a0a0;
+    }
+
+    .fine {
+        margin: 18px 0 0;
+        color: var(--muted);
+        font-size: .82rem;
+        line-height: 1.5;
+    }
+
+    /* Buttons */
+
+    .btn {
+        display: inline-flex; align-items: center; justify-content: center;
+        height: 46px; padding: 0 22px; border-radius: 10px;
+        border: 1px solid #34343a; background: var(--surface);
+        font-weight: 600; text-decoration: none;
+        transition: border-color .15s, box-shadow .25s;
+    }
+    .btn.p { background: var(--accent); color: var(--on-accent); border-color: var(--accent); }
+    .btn:hover { border-color: var(--accent); animation: hop .5s ease-out 1; }
+
+</style>

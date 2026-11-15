@@ -1,0 +1,236 @@
+---
+import Layout from "../layouts/Layout.astro";
+import sethe from "../assets/images/sethe-pfp.png";
+import ryio from "../assets/images/ryio-pfp.jpeg";
+import miausor from "../assets/images/b61ee55910582592e759baf067487b9ftplv-tiktokx-cropcenter10801080.jpeg";
+import lynxi from "../assets/images/lynxi-pfp.jpeg";
+import chefmahlzeit from "../assets/images/chefmahlzeit-pfp.jpeg";
+---
+
+<Layout>
+    <h1 class="page-title">Freunde</h1>
+
+    <div class="grid">
+
+        <article class="card friend">
+            <div class="friend-head"><div class="avatar md"><span>S</span><img src={sethe.src} alt="Sethe"></div><h3>Sethe</h3></div>
+            <p>Ein Rentner Barde :3</p>
+            <div class="chips"><a class="chip" href="https://www.twitch.tv/sethevt" target="_blank" rel="noopener noreferrer"><span><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 2H3v16h5v4l4-4h5l4-4V2z"></path><path d="M11 7v4M16 7v4"></path></svg></span>Twitch</a><a class="chip" href="https://www.youtube.com/@Sethe_Galenea" target="_blank" rel="noopener noreferrer"><span><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="5" width="20" height="14" rx="4"></rect><path d="M10 9l5 3-5 3z"></path></svg></span>Youtube</a><a class="chip" href="https://www.tiktok.com/@sethegalenea" target="_blank" rel="noopener noreferrer"><span><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></span>Tiktok</a></div>
+        </article>
+
+        <article class="card friend">
+            <div class="friend-head"><div class="avatar md"><span>R</span><img src={ryio.src} alt="Ryio"></div><h3>Ryio</h3></div>
+            <p>Einfach nen Kleiner Nova mit ner Hohen Stimme XD</p>
+            <div class="chips"><a class="chip" href="https://www.tiktok.com/@fluffy_ryio" target="_blank" rel="noopener noreferrer"><span><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></span>Tiktok</a></div>
+        </article>
+
+        <article class="card friend">
+            <div class="friend-head"><div class="avatar md"><span>M</span><img src={miausor.src} alt="Miausor"></div><h3>Miausor</h3></div>
+            <p>Noch eine Katze auf Tiktok :3</p>
+            <div class="chips"><a class="chip" href="https://www.tiktok.com/@miausor_?lang=de-DE" target="_blank" rel="noopener noreferrer"><span><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></span>Tiktok</a></div>
+        </article>
+
+        <article class="card friend">
+            <div class="friend-head"><div class="avatar md"><span>L</span><img src={lynxi.src} alt="Lynxi"></div><h3>Lynxi</h3></div>
+            <p>Eine weitere Katze auf Tiktok x3</p>
+            <div class="chips"><a class="chip" href="https://www.tiktok.com/@lynxi.vrc?lang=de-DE" target="_blank" rel="noopener noreferrer"><span><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></span>Tiktok</a></div>
+        </article>
+
+        <article class="card friend">
+            <div class="friend-head"><div class="avatar md"><span>C</span><img src={chefmahlzeit.src} alt="ChefMahlZeit"></div><h3>ChefMahlZeit</h3></div>
+            <p>Einer von 1Mio Novas X3</p>
+            <div class="chips"><a class="chip" href="https://www.tiktok.com/@chefmahlzeit?lang=de-DE" target="_blank" rel="noopener noreferrer"><span><svg class="gi" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18V5l12-2v13"></path><circle cx="6" cy="18" r="3"></circle><circle cx="18" cy="16" r="3"></circle></svg></span>Tiktok</a></div>
+        </article>
+
+    </div>
+</Layout>
+
+<style>
+    .grid {
+        display: grid;
+        gap: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    }
+
+    .card {
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        color: inherit;
+        text-decoration: none;
+    }
+
+    a.card {
+        transition: border-color .15s, transform .15s;
+    }
+
+    a.card:hover {
+        border-color: var(--accent);
+        transform: translateY(-2px);
+    }
+
+    .post-card .cover {
+        aspect-ratio: 16 / 10;
+        background: var(--raised);
+        overflow: hidden;
+    }
+
+    .post-card .cover img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .cover-ph {
+        height: 100%;
+        display: grid;
+        place-items: center;
+        color: #55555c;
+        font-size: .9rem;
+    }
+
+    .card-body {
+        padding: 18px 20px 22px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+    }
+
+    .card-body time {
+        color: var(--muted);
+        font-size: .85rem;
+    }
+
+    .card-body h3 {
+        font-size: 1.2rem;
+    }
+
+    .card-body p {
+        margin: 0;
+        color: #b4b4bb;
+        font-size: .95rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .friend {
+        padding: 20px;
+        gap: 14px;
+    }
+
+    .friend-head {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+    }
+
+    .friend-head h3 {
+        font-size: 1.15rem;
+        overflow-wrap: anywhere;
+    }
+
+    .friend p {
+        margin: 0;
+        color: #b4b4bb;
+        font-size: .95rem;
+    }
+
+    .chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: auto;
+    }
+
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        font-size: .88rem;
+        font-weight: 600;
+        background: var(--raised);
+        border: 1px solid var(--line);
+        text-decoration: none;
+        transition: border-color .15s, box-shadow .25s;
+    }
+
+    .chip {
+        --hop: -5px;
+    }
+
+    .chip:hover {
+        border-color: var(--accent);
+        animation: hop .5s ease-out 1;
+    }
+
+    .chip.static:hover {
+        border-color: var(--line);
+        animation: none;
+    }
+
+    .chip > span {
+        display: inline-grid;
+        place-items: center;
+    }
+
+    .chip > span > * {
+        grid-area: 1 / 1;
+    }
+
+    .chip > span img {
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+        object-fit: cover;
+        background: var(--raised);
+    }
+
+    .lg {
+        position: relative;
+        display: grid;
+        place-items: center;
+        overflow: hidden;
+        width: 100%;
+        height: 100%;
+        border-radius: inherit;
+    }
+
+    .lg > * {
+        grid-area: 1 / 1;
+    }
+
+    .lg img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background: var(--raised);
+    }
+
+    .chip .lg {
+        width: 18px;
+        height: 18px;
+        border-radius: 5px;
+    }
+
+    .avatar {
+        position: relative; display: grid; place-items: center; overflow: hidden;
+        border-radius: 50%; background: var(--raised); color: var(--muted);
+        border: 1px solid var(--line); font-weight: 700; flex: 0 0 auto;
+    }
+    .avatar > * { grid-area: 1 / 1; }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; background: var(--raised); }
+    .avatar.md { width: 60px; height: 60px; font-size: 24px; }
+    .avatar.xl { width: 128px; height: 128px; font-size: 48px; box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px #4a4a52, 0 0 40px rgba(var(--glow), .16); }
+
+    .chip .gi { width: 16px; height: 16px; }
+
+    .page-title { font-size: clamp(1.9rem, 5vw, 2.8rem); margin-bottom: 30px; }
+
+</style>

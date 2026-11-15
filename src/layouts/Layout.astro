@@ -1,23 +1,103 @@
+---
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+import Particles from "@tsparticles/astro";
+import type { ISourceOptions } from "@tsparticles/engine";
+import { ClientRouter } from "astro:transitions";
+import favicon from '../assets/favicon.png';
+
+
+const options: ISourceOptions = {
+	fullScreen: {
+		enable: true,
+		zIndex: -1,
+	},
+
+	"key": "snow",
+	"name": "Snow",
+	"particles": {
+		"number": {
+			"value": 400,
+			"density": {
+				"enable": true
+			}
+		},
+		"paint": {
+			"fill": {
+				"color": {
+					"value": "#f0f0f0"
+				}
+			}
+		},
+		"shape": {
+			"type": "circle"
+		},
+		"opacity": {
+			"value": 1
+		},
+		"size": {
+			"value": 2
+		},
+		"move": {
+			"enable": true,
+			"speed": 4,
+			"direction": "bottom",
+			"straight": true
+		},
+		"wobble": {
+			"enable": true,
+			"distance": 10,
+			"speed": 10
+		},
+		"zIndex": {
+			"value": {
+				"min": 0,
+				"max": 100
+			},
+			"opacityRate": 10,
+			"sizeRate": 10,
+			"velocityRate": 10
+		}
+	},
+	"background": {
+		"color": "000000"
+	}
+}
+
+---
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
+		<link rel="icon" type="image/png" href={favicon.src} />
 		<meta name="generator" content={Astro.generator} />
-		<title>Astro Basics</title>
+		<title>Liro</title>
 	</head>
 	<body>
-		<slot />
+	     <Header />
+		<main class="content">
+		    <slot />
+		</main>
+		<Footer />
+		<script>
+			import { initParticlesEngine } from "@tsparticles/astro";
+
+			void initParticlesEngine(async (engine) => {
+				const { loadFull } = await import("tsparticles");
+				await loadFull(engine);
+			});
+		</script>
+
 	</body>
 </html>
 
-<style>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		height: 100%;
+<Particles id="tsparticles" options={options} />
+
+<style is:global>
+	[data-id="tsparticles"] {
+		position: fixed
 	}
 </style>
+
+<ClientRouter />

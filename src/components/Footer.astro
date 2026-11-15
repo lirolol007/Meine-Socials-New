@@ -1,0 +1,22 @@
+---
+import '../styles/global.css'
+---
+
+<footer class="foot" id="foot">
+    <div class="foot-in">
+        <span>© {new Date().getFullYear()} Liro</span>
+        <a href="/impressum">Impressum</a>
+    </div>
+</footer>
+
+<style>
+    .foot {
+        padding: 24px var(--pad) calc(24px + env(safe-area-inset-bottom, 0px));
+        color: var(--muted); font-size: .85rem; border-top: 1px solid var(--line);
+        z-index: 20;
+    }
+    .foot-in { max-width: var(--max); margin: 0 auto; display: flex; justify-content: center; align-items: center; gap: 16px; flex-wrap: wrap;}
+    [data-page="home"] .foot-in { justify-content: center; }
+    .foot a { text-decoration: none; }
+    .foot a:hover { color: var(--text); }
+</style>

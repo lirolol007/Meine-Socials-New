@@ -1,0 +1,98 @@
+---
+import '../styles/global.css'
+import brandLogo from '../assets/images/liro-logo-final.png'
+---
+
+<header class="topbar">
+    <div class="bar">
+        <a class="brand" id="brand" href="/" aria-label="Zur Startseite">
+            <img src={brandLogo.src} alt="" style="height: 3rem"/>
+            <span>Liro</span>
+        </a>
+        <nav class="nav" id="nav" aria-label="Hauptmenü">
+            <a href="/">Home</a>
+            <a href="/blog">Blog</a>
+            <a href="/freunde">Freunde</a>
+            <a href="/impressum">Impressum</a>
+        </nav>
+    </div>
+</header>
+
+<style>
+    .topbar {
+        position: sticky; top: 0; z-index: 20;
+        padding: calc(14px + env(safe-area-inset-top, 0px)) var(--pad) 14px;
+        background: rgba(13, 13, 15, .78);
+        -webkit-backdrop-filter: blur(14px);
+        backdrop-filter: blur(14px);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .bar {
+        max-width: var(--max);
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .brand {
+        display: flex;
+        min-width: 0;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 1.15rem;
+        align-items: center;
+        gap: 0.75rem
+    }
+
+    .brand span {
+        display: block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .nav {
+        flex: 0 0 auto;
+        max-width: 100%;
+        display: flex;
+        gap: 28px;
+        overflow-x: auto;
+        scrollbar-width: none;
+    }
+
+    .nav::-webkit-scrollbar {
+        display: none;
+    }
+
+    .nav a {
+        flex: 0 0 auto;
+        padding: 9px 0;
+        color: var(--muted);
+        text-decoration: none;
+        font-size: .95rem;
+        border-bottom: 2px solid transparent;
+        transition: color .15s, border-color .15s;
+    }
+
+    .nav a:hover {
+        color: var(--text);
+    }
+
+    .nav a.active {
+        color: var(--text);
+        border-bottom-color: var(--accent);
+    }
+
+    @media (max-width: 450px) {
+        .brand {
+            display: none;
+        }
+
+        .bar {
+            justify-content: center;
+        }
+    }
+</style>
