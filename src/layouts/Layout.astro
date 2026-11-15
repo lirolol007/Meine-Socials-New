@@ -6,63 +6,64 @@ import type { ISourceOptions } from "@tsparticles/engine";
 import { ClientRouter } from "astro:transitions";
 import favicon from '../assets/favicon.png';
 
-
 const options: ISourceOptions = {
 	fullScreen: {
 		enable: true,
 		zIndex: -1,
 	},
-
-	"key": "snow",
-	"name": "Snow",
-	"particles": {
-		"number": {
-			"value": 400,
-			"density": {
-				"enable": true
-			}
+	background: {
+		color: {
+			value: "transparent",
 		},
-		"paint": {
-			"fill": {
-				"color": {
-					"value": "#f0f0f0"
-				}
-			}
-		},
-		"shape": {
-			"type": "circle"
-		},
-		"opacity": {
-			"value": 1
-		},
-		"size": {
-			"value": 2
-		},
-		"move": {
-			"enable": true,
-			"speed": 4,
-			"direction": "bottom",
-			"straight": true
-		},
-		"wobble": {
-			"enable": true,
-			"distance": 10,
-			"speed": 10
-		},
-		"zIndex": {
-			"value": {
-				"min": 0,
-				"max": 100
-			},
-			"opacityRate": 10,
-			"sizeRate": 10,
-			"velocityRate": 10
-		}
 	},
-	"background": {
-		"color": "000000"
-	}
-}
+	fpsLimit: 120,
+	interactivity: {
+		events: {
+			onClick: {
+				enable: false,
+			},
+			onHover: {
+				enable: false,
+			},
+		},
+	},
+	particles: {
+		color: {
+			value: ["#38bdf8", "#818cf8", "#c084fc", "#f43f5e", "#34d399", "#fde047"],
+		},
+		move: {
+			direction: "none",
+			enable: true,
+			outModes: {
+				default: "out",
+			},
+			random: true,
+			speed: 1.5,
+			straight: false,
+		},
+		number: {
+			density: {
+				enable: true,
+			},
+			value: 80,
+		},
+		opacity: {
+			value: { min: 0.15, max: 0.6 },
+			animation: {
+				enable: true,
+				speed: 0.8,
+				sync: false,
+			},
+		},
+		shape: {
+			type: "circle",
+		},
+		size: {
+			value: { min: 1.5, max: 4 },
+		},
+	},
+	detectRetina: true,
+};
 
 ---
 <!doctype html>
@@ -86,6 +87,7 @@ const options: ISourceOptions = {
 			void initParticlesEngine(async (engine) => {
 				const { loadFull } = await import("tsparticles");
 				await loadFull(engine);
+
 			});
 		</script>
 
