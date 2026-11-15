@@ -13,7 +13,6 @@ import x from '../assets/images/x_logo.png';
 
 <Layout>
 	<main class="card-container">
-
 		<div class="profile-section">
 			<div class="avatar xl">
 				<img
@@ -85,21 +84,23 @@ import x from '../assets/images/x_logo.png';
 
 <style>
 	.card-container {
+		--scale: 1.25;
+
 		width: 100%;
-		max-width: 61rem;
-		margin: 3rem auto;
+		max-width: calc(61rem * var(--scale));
+		margin: calc(3rem * var(--scale)) auto;
 		box-sizing: border-box;
 		background:
 			radial-gradient(circle, rgba(255, 255, 255, 0.15) 12%, transparent 12%),
 			linear-gradient(135deg, #000000 0%, #5e5e5e 100%);
-		background-size: 24px 24px, auto;
-		border-radius: 20px;
-		padding: 3rem;
+		background-size: calc(24px * var(--scale)) calc(24px * var(--scale)), auto;
+		border-radius: calc(20px * var(--scale));
+		padding: calc(3rem * var(--scale));
 		display: grid;
 		grid-template-columns: 1fr auto;
-		gap: 3rem;
+		gap: calc(3rem * var(--scale));
 		align-items: center;
-		box-shadow: 0 16px 40px rgba(0, 0, 0, 0.2);
+		box-shadow: 0 calc(16px * var(--scale)) calc(40px * var(--scale)) rgba(0, 0, 0, 0.2);
 		font-family: system-ui, -apple-system, sans-serif;
 	}
 
@@ -118,29 +119,32 @@ import x from '../assets/images/x_logo.png';
 		border-radius: 50%;
 		background: var(--raised);
 		color: var(--muted);
-		border: 1px solid var(--line);
+		border: calc(1px * var(--scale)) solid var(--line);
 		font-weight: 700;
 		flex: 0 0 auto;
-		margin-bottom: 2rem;
+		margin-bottom: calc(2rem * var(--scale));
 	}
+
 	.avatar.xl {
-		width: 13rem;
-		height: 13rem;
-		font-size: 48px;
-		box-shadow: 0 0 0 4px var(--bg), 0 0 0 5px #4a4a52, 0 0 40px rgba(var(--glow), .16);
+		width: calc(13rem * var(--scale));
+		height: calc(13rem * var(--scale));
+		font-size: calc(48px * var(--scale));
+		box-shadow: 0 0 0 calc(4px * var(--scale)) var(--bg), 0 0 0 calc(5px * var(--scale)) #4a4a52, 0 0 calc(40px * var(--scale)) rgba(var(--glow), .16);
 	}
 
 	.profile-name {
-		font-size: clamp(2.2rem, 5vw, 3rem);
-		margin: 0 0 0.5rem 0;
+		font-size: calc(clamp(2.2rem, 5vw, 3rem) * var(--scale));
+		margin: 0 0 calc(0.5rem * var(--scale)) 0;
 	}
 
 	.profile-title {
-		margin: 0 0 1rem 0;
+		font-size: calc(1.8rem * var(--scale));
+		margin: 0 0 calc(1rem * var(--scale)) 0;
 		opacity: 0.95;
 	}
 
 	.profile-bio {
+		font-size: calc(1rem * var(--scale));
 		margin: 0;
 		opacity: 0.9;
 		line-height: 1.5;
@@ -154,21 +158,21 @@ import x from '../assets/images/x_logo.png';
 	.social-grid {
 		display: grid;
 		grid-template-columns: repeat(2, 1fr);
-		gap: 1.25rem;
+		gap: calc(1.25rem * var(--scale));
 		list-style: none;
 		padding: 0;
 		margin: 0;
 	}
 
 	.social-btn {
-		width: 4.5rem;
-		height: 4.5rem;
-		border-radius: 16px;
+		width: calc(4.5rem * var(--scale));
+		height: calc(4.5rem * var(--scale));
+		border-radius: calc(16px * var(--scale));
 		display: flex;
 		align-items: center;
 		justify-content: center;
 		transition: transform 0.2s ease, box-shadow 0.2s ease;
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 calc(4px * var(--scale)) calc(12px * var(--scale)) rgba(0, 0, 0, 0.15);
 		overflow: hidden;
 	}
 
@@ -206,10 +210,10 @@ import x from '../assets/images/x_logo.png';
 	@media (max-width: 768px) {
 		.card-container {
 			grid-template-columns: 1fr;
-			padding: 2rem 1.5rem;
+			padding: calc(2rem * var(--scale)) calc(1.5rem * var(--scale));
 			text-align: center;
-			margin: 1.5rem auto;
-			width: calc(100% - 2rem);
+			margin: calc(1.5rem * var(--scale)) auto;
+			width: calc(100% - calc(2rem * var(--scale)));
 		}
 
 		.profile-section {
